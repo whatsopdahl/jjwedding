@@ -1,0 +1,14 @@
+/*
+ override materialize.scss variables
+*/
+
+@import "../node_modules/materialize-css/sass/components/_color.scss";
+
+$primary-color: #003366 !default;
+$primary-color-light: lighten($primary-color, 15%) !default;
+$primary-color-dark: darken($primary-color, 15%) !default;
+
+$secondary-color: color("grey", "darken-1") !default;
+$success-color: color("green", "base") !default;
+$error-color: color("materialize-red", "base") !default;
+$link-color: color("light-blue", "darken-3") !default;

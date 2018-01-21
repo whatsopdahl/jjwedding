@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<ul id="user-dropdown" class="dropdown-content">
+	<li><a href="" ng-click="logout()">Logout</a></li>
+</ul>
+<div class="navbar-fixed">
+	<nav>
+		<div class="nav-wrapper">
+		    <a ng-href="/" class="brand-logo title">J&J Wedding</a>
+		    <a ng-href="#" data-activates="nav-mobile" class="button-collapse right" ng-click="showMobileMenu($event)">
+		    	<i class="material-icons">menu</i>
+		    </a>
+		    <ul class="right hide-on-med-and-down">
+				<li class="waves-lighten" ng-class="{ active : page == '/'}"><a ng-href="/">Home</a></li>
+				<li class="waves-lighten" ng-class="{ active : page == '/RSVP'}"><a ng-href="/#!/RSVP">RSVP</a></li>
+				<li class="waves-lighten" ng-class="{ active : page == '/venue'}"><a ng-href="/#!/venue">Venue</a></li>
+				<li class="waves-lighten" ng-class="{ active : page == '/accomodations'}"><a  ng-href="/#!/accomodations">Accomodations</a></li>
+				<li class="waves-lighten" ng-class="{ active : page == '/weddingparty'}"><a href="/#!/weddingparty">Wedding Party</a></li>
+				<li class="waves-lighten" ng-class="{ active : page == '/registry'}"><a ng-href="/#!/registry">Registry</a></li>
+				<li class="waves-lighten" ng-class="{ active : page == '/gallery'}"><a href="/#!/gallery">Gallery</a></li>
+			</ul>
+			<ul class="side-nav" id="nav-mobile">
+				<li class="divider"></li>
+				<li><a href="/">Home</a></li>
+				<li><a ng-href="/#!/RSVP">RSVP</a></li>
+				<li><a ng-href="/#!/venue">Venue</a></li>
+				<li><a ng-href="/#!/accomodations">Accomodations</a></li>
+				<li><a ng-href="/#!/weddingparty">Wedding Party</a></li>
+				<li><a ng-href="/#!/registry">Registry</a></li>
+				<li><a ng-href="/#!/gallery">Gallery</a></li>
+				<li ng-if="!user"><a href="" ng-click="login()">Login</a></li>
+				<li ng-if="user"><a href="" ng-click="logout()">Logout</a></li>
+			</ul>
+		</div>
+	</nav>
+</div>

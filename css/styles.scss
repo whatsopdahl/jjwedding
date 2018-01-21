@@ -1,0 +1,85 @@
+/*
+ * Imports
+ */
+@import "./default_vars.scss";
+
+@import "../node_modules/materialize-css/sass/materialize.scss";
+
+/**
+ * Mixins
+ */
+@mixin sansita-font() {
+	font-family: 'Sansita', sans-serif;
+}
+
+@mixin lobster-font() {
+	font-family: 'Lobster Two', cursive;
+}
+
+/**
+ * Tags
+ */
+html, body {
+	@include sansita-font();
+}
+
+nav {
+	i {
+		display:inline !important;
+	}
+	.brand-logo{
+		padding-left: 10px;
+		&:hover {
+			color : $link-color;
+		}
+	}
+}
+
+footer {
+	ul {
+		style : inline;
+	}
+	&.page-footer{
+		padding-top:0;
+	}
+	div {
+		&.row {
+			margin:0;
+		}
+	}
+}
+
+p {
+	a:hover {
+		color : lighten($link-color, 15%);
+	}
+}
+
+a {
+	&:disabled {
+		cursor : not-allowed;
+	}
+}
+
+/**
+ * Classes
+ */
+.navbar-fixed {
+	z-index : 1000;
+}
+
+.title {
+	@include lobster-font();
+}
+
+.user-nav-label{
+	margin: 5%;
+}
+
+.rounded-corners {
+	border-radius: 10px;
+}
+
+/**
+ * Identifiers
+ */

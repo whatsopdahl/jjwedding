@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<div class="modal" id="login-modal">
+  <div class="modal-content">
+    <h4>Please login to RSVP</h4>
+    <!--facebook login btn-->
+		<fb:login-button scope="public_profile,email" size="xlarge" onlogin="checkLoginStatus();">
+		</fb:login-button>
+    <br>
+    <div>or</div>
+    <br>
+    <!--Google login btn-->
+    <google-sign-in-button></google-sign-in-button>
+    <!--custom login btn-->
+  </div><!-- /.modal-content -->
+  <div class="modal-footer">
+    <a class="modal-action modal-close waves-effect btn">Close</a>
+  </div><!-- /.modal-footer -->
+</div><!-- /.modal -->

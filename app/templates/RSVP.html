@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<div class="container">
+	<div ng-if="!user">
+		<div class="row">
+			<div class="col s12">
+				<h3>Whoops!</h3>
+				<p>It looks like you are not logged in! Please login to rsvp.</p>
+				<a class="btn waves-lighten pull-right" ng-click="login()">Login</a>
+			</div>
+		</div>
+	</div>
+	<div ng-if="user && user.hasRsvped">
+		<div class="row">
+			<div class="col s12">
+				<h3>Need to change your RSVP?</h3>
+				<p>It looks like you have already RSVPed. If you need to change your RSVP details, please contact Jon Opdahl. You can reach him at the following: </p>
+				<div class="col s12">
+					<p>
+						<a href="tel:+16129787404">
+							<div class="btn btn-floating hoverable"><i class="material-icons">phone</i></div>
+							(612) 978-7404
+						</a>
+					</p>
+					<p>
+						<a href="mailto:jon.opdahl@whatsopdahl.com?Subject=Change%20My%20RSVP">
+							<div class="btn btn-floating hoverable"><i class="material-icons">email</i></div>
+							jon.opdahl@whatsopdahl.com
+						</a>
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div ng-if="user && !user.hasRsvped">
+		<div class="nav-wrapper">
+			<div class="col s12">
+		        <a href="" class="breadcrumb" ng-class="{'active' : currPage==0}" ng-click="jumpTo(0)">Guest Info</a>
+		        <a href="" class="breadcrumb" ng-class="{'active' : currPage==1}" ng-click="jumpTo(1)">RSVP</a>
+		        <a href="" class="breadcrumb" ng-class="{'active' : currPage==2}" ng-click="jumpTo(2)">Party Info</a>
+		        <a href="" class="breadcrumb" ng-class="{'active' : currPage==3}" ng-click="jumpTo(3)">Select Meal</a>
+		    </div>
+	    </div>
+	    <div class="row" ng-switch="currPage">
+	    	<div ng-switch-when="0" class="col s12">
+	    		<h5>Please review your information below.</h5>
+	    		<div class="row">
+					<form class="col s12">
+						<div class="row">
+					        <div class="input-field col m6 s12">
+					          	<input id="first-name" type="text" class="validate" ng-model="form.firstName">
+					          	<label ng-class="{'active': form.firstName}" for="first_name">First Name</label>
+					        </div>
+					        <div class="input-field col m6 s12">
+					          	<input id="last-name" type="text" class="validate" ng-model="form.lastName">
+					          	<label ng-class="{'active': form.lastName}" for="last-name">Last Name</label>
+					        </div>
+					    </div>
+					    <div class="row">
+					    	<div class="input-field col s12">
+					    		<input id="email" type="email" class="validate" ng-model="form.email">
+					    		<label ng-class="{'active': form.email}" for="email">Email</label>
+					    	</div>
+					    </div>
+					</form>
+				</div>
+	    	</div>
+	    	<div ng-switch-when="1" class="col s12">
+	    		<h5>Do you plan on attending the wedding?</h5>
+	    		<div class="row">
+	    			<form class="col s12">
+						<p>
+							<input class="with-gap" ng-model="form.attending" type="radio" id="attending" ng-value="true"/>
+							<label for="attending">Yes, I am attending.</label>
+						</p>
+						<p>
+							<input class="with-gap" ng-model="form.attending" type="radio" id="not-attending" ng-value="false"/>
+							<label for="not-attending">No, I cannot make it.</label>
+						</p>
+	    			</form>
+	    		</div>
+	    	</div>
+	    	<div ng-switch-when="2" class="col s12">
+	    		<h5>How many people are in your party?</h5>
+	    		<div class="row">
+	    			<form class="col s12">
+	    				<div class="row">
+			    			<div class="input-field col s12">
+								<select ng-options="number as number for number in partyOptions" ng-model="form.party">
+									<option value="" disabled selected>Choose your option</option>
+								</select>
+								<label>Number of guests (including yourself)</label>
+							</div>
+						</div>
+					</form>
+	    		</div>
+	    	</div>
+	    	<div ng-switch-when="3" class="col s12">
+	    		<h5>Select your food option.</h5>
+	    		<div class="row">
+	    			<form class="col s12">
+						<p>
+							<input class="with-gap" ng-model="form.meal" type="radio" id="meal1" ng-value="0"/>
+							<label for="meal1">Chicken</label>
+						</p>
+						<p>
+							<input class="with-gap" ng-model="form.meal" type="radio" id="meal2" ng-value="1"/>
+							<label for="meal2">Vegetarian Lasagna</label>
+						</p>
+	    			</form>
+	    		</div>
+	    	</div>
+	    </div>
+	    <div class="row">
+	    	<div class="col s12">
+	    		<a class="btn pull-left" ng-if="currPage > 0 && currPage <= maxPage" ng-click="prevPage()">Back</a>
+	    		<a class="btn pull-right" ng-if="0 <= currPage < maxPage" ng-click="nextPage()" ng-disabled="!(filled())">Continue</a>
+	    		<a class="btn pull-right" ng-if="currPage == maxPage" ng-click="submit()">Submit</a>
+	    	</div>
+	    </div>
+	</div>
+</div>
+<confirm-modal data="data" submit="submit"></confirm-modal>

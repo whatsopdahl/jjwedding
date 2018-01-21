@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<div class="row">
+	<div class="col s12 m4" ng-repeat="img in imgUrls" >
+		<div class="card">
+			<div class="card-content">
+		  		<img class="responsive-img materialboxed" ng-src="{{img.url}}" data-caption="{{img.caption}}"/>
+		  	</div>
+		</div>
+	</div>
+</div>
+<photo-modal></photo-modal>
