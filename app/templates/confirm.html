@@ -1,15 +1,52 @@
 <!DOCTYPE html>
-<div class="modal" id="confirm-modal">
+<div class="modal modal-fixed-footer" id="confirm-modal">
   <div class="modal-content">
     <h3> Confirm RSVP </h3>
     <div class="col s12">
-    	<h5>Please review your RSVP</h5>
     	<p>Please validate that the following data is correct. Once submitted, you will need to contact Jon Opdahl (the groom) or Jenna Dengler (the bride) to change your RSVP details.</p>
-    	<p>{{data}}</p>
+    	<div class="col s12 divider"></div>
+      <div class="card primary">
+        <div class="card-content white-text">
+          <span class="card-title">I <em>will<span ng-if="!data.attending"> not</span></em> be attending the wedding</span>
+        </div>
+      </div>
+      <div ng-if="data.attending" class="card primary">
+        <div class="card-content white-text">
+          <span class="card-title">Contact Info</span>
+          <h6>Address</h6>
+          <p>{{data.address1}}</p>
+          <p ng-if="data.address2">{{data.address2}}</p>
+          <p>{{data.city}}, {{data.state.abbrev}} {{data.zip}}</p>
+          <h6>Email</h6>
+          <p>{{data.email}}</p>
+          <h6 ng-if="data.phone">Phone</h6>
+          <p>{{data.phone}}</p>
+        </div>
+        <div class="card-action">
+          <a class="modal-action modal-close waves-effect btn right-align" ng-click="jumpTo(4)">Change</a>
+        </div>
+      </div>
+      <div ng-if="data.attending" class="card primary">
+        <div class="card-content white-text">
+          <span class="card-title">Guest Info</span>
+          <h6 ng-if="data.guestsAllowed > 1">Number of Guests</h6>
+          <p>{{data.partySize}}</p>
+          <div ng-repeat="guest in data.partyMembers">
+            <h6>{{guest.firstName}} {{guest.lastName}}</h6>
+            <p><strong>Dietary Restrictions:</strong> {{guest | dietRestrictionFilter : restrictions}}</p>
+            <p><strong>Notes:</strong> {{guest.diet.notes == null ? 'None' : guest.diet.notes}}</p>
+            <p ng-if="guest.under21" class="red-text">Under 21</p>
+          </div>
+        </div>
+        <div class="card-action">
+          <a class="modal-action modal-close waves-effect btn right-align" ng-click="jumpTo(2)">Change Guests</a>
+          <a class="modal-action modal-close waves-effect btn right-align" ng-click="jumpTo(3)">Change Diets</a>
+        </div>
+      </div>
     </div>
   </div><!-- /.modal-content -->
   <div class="modal-footer">
     <a class="modal-action modal-close waves-effect btn left-align">Cancel</a>
-    <a class="modal-action modal-close waves-effect btn right-align" ng-click="submit()">Submit</a>
+    <a class="primary modal-action modal-close waves-effect btn right-align" ng-click="confirm()">Submit</a>
   </div><!-- /.modal-footer -->
 </div><!-- /.modal -->

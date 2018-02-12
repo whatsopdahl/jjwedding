@@ -80,6 +80,138 @@ a {
 	border-radius: 10px;
 }
 
+.success {
+	background-color : $success-color !important;
+}
+
+.error {
+	background-color: $error-color !important;
+}
+
+.primary {
+	background-color : $primary-color !important;
+}
+
+.link {
+	background-color: $link-color !important;
+}
+
+.success-text {
+	color :  $success-color !important;
+}
+
+.error-text {
+	color : $error-color !important;
+}
+
+.primary-text {
+	color : $primary-color !important;
+}
+
+.link-text {
+	color : $link-color !important;
+}
+
+.ng-invalid {
+	@extend .invalid;
+}
+
+.ng-valid {
+	@extend .valid;
+}
+
+.pages {
+	min-height : 300px;
+}
+
+.loading-wrapper {
+	background-color: rgba(255,255,255,.8);
+	position: absolute;
+	z-index : 10;
+	width : 100%;
+	height : 100%;
+	box-sizing: content-box;
+	.row {
+		position: absolute;
+		top : 50%;
+		transform : translateY(-50%);
+		width : 100%;
+	}
+}
+
+
+
 /**
  * Identifiers
  */
+
+#rsvp-modal {
+	span {
+		color: $secondary-color;
+		a {
+			cursor: pointer;
+			&.active {
+				font-size: larger;
+			}
+			&.disabled {
+				color: $secondary-color;
+			}
+			&:hover {
+				text-decoration: underline;
+			}
+		}
+	}
+	.modal-content {
+		overflow-y: hidden;
+	}
+	.rsvp-action-pane {
+		height : 100%;
+		.page-container {
+			height : 100%;
+			.pages {
+				height : 100%;
+				position: relative;
+				overflow-y: auto;
+				.page {
+					position: absolute;
+					top:0;
+					left:0;
+					width : 100%;
+					&.ng-enter {
+						transition: all 0.5s linear 0.5s;
+						opacity: 0;
+						&.ng-enter-active {
+							opacity: 1;
+						}
+					}
+
+					&.ng-leave {
+						transition: all 0.5s linear;
+						opacity: 1;
+						&.ng-leave-active {
+							opacity: 0;
+						}
+					}
+				}
+			}
+		}
+	}
+	.modal-footer {
+		.row {
+			margin-bottom: 0px;
+			p {
+				text-align : left;
+				margin-bottom : 0px;
+			}
+		}
+	}
+}
+
+#confirm-modal {
+	h6 {
+		border-bottom: lighten($secondary-color, 15%) 1px solid;
+	}
+	p {
+		padding-left : 5%;
+	}
+}

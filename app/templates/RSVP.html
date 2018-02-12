@@ -1,122 +1,210 @@
 <!DOCTYPE html>
-<div class="container">
-	<div ng-if="!user">
-		<div class="row">
-			<div class="col s12">
-				<h3>Whoops!</h3>
-				<p>It looks like you are not logged in! Please login to rsvp.</p>
-				<a class="btn waves-lighten pull-right" ng-click="login()">Login</a>
-			</div>
-		</div>
-	</div>
-	<div ng-if="user && user.hasRsvped">
-		<div class="row">
-			<div class="col s12">
-				<h3>Need to change your RSVP?</h3>
-				<p>It looks like you have already RSVPed. If you need to change your RSVP details, please contact Jon Opdahl. You can reach him at the following: </p>
+<div class="modal modal-fixed-footer" id="rsvp-modal">
+  <loading-component ng-if="loading"></loading-component>
+  <div class="modal-content">
+		<div ng-if="data.partyId == null"> <!-- begin partyId form -->
+			<div class="row">
 				<div class="col s12">
-					<p>
-						<a href="tel:+16129787404">
-							<div class="btn btn-floating hoverable"><i class="material-icons">phone</i></div>
-							(612) 978-7404
-						</a>
-					</p>
-					<p>
-						<a href="mailto:jon.opdahl@whatsopdahl.com?Subject=Change%20My%20RSVP">
-							<div class="btn btn-floating hoverable"><i class="material-icons">email</i></div>
-							jon.opdahl@whatsopdahl.com
-						</a>
-					</p>
+					<h2>RSVP</h2>
+					<form novalidate class="col s12" ng-submit="getParty()" name="rsvpEntryForm">
+						<p>Please enter the unique party key found on your invite.</p>
+						<div class="input-field col s12">
+							<label for="party-key">Party Key</label>
+							<input id="party-key" ng-model="entryPage.partyKey" ng-minlength="8"
+                ng-maxlength="8" type="text" name="key" min="8" max="8" required/>
+						</div>
+						<button type="submit" class="pull-right btn success waves-effect waves-light"
+              ng-class="{ 'disabled' : rsvpEntryForm.key.$invalid }">Validate</button>
+					</form>
+        </div>
+      </div>
+		</div> <!-- end partyId form -->
+		<div ng-if="data.partyId != null && data.rsvped"> <!-- already rsvped -->
+			<div class="row">
+				<div class="col s12">
+					<h3>Need to change your RSVP?</h3>
+					<p>It looks like you have already RSVPed. If you need to change your RSVP details, please contact the groom, Jon Opdahl. See below for contact info. </p>
+          <contact-info></contact-info>
 				</div>
 			</div>
-		</div>
-	</div>
-	<div ng-if="user && !user.hasRsvped">
-		<div class="nav-wrapper">
-			<div class="col s12">
-		        <a href="" class="breadcrumb" ng-class="{'active' : currPage==0}" ng-click="jumpTo(0)">Guest Info</a>
-		        <a href="" class="breadcrumb" ng-class="{'active' : currPage==1}" ng-click="jumpTo(1)">RSVP</a>
-		        <a href="" class="breadcrumb" ng-class="{'active' : currPage==2}" ng-click="jumpTo(2)">Party Info</a>
-		        <a href="" class="breadcrumb" ng-class="{'active' : currPage==3}" ng-click="jumpTo(3)">Select Meal</a>
+		</div> <!-- end already rsvped -->
+		<div class="rsvp-action-pane" ng-if="data.partyId != null && !data.rsvped">
+		    <div class="row valign-wrapper page-container" ng-switch="currPage">
+          <div class="col s1">
+            <a href="" class="btn-floating waves-effect waves-light link rsvp-nav-btn" ng-disabled="currPage <= 0" ng-click="prevPage()"><i class="material-icons">keyboard_arrow_left</i></a>
+          </div>
+          <div class="col s10">
+            <div class="row">
+            <h4>Welcome {{data.name}} party!</h4>
+            <span>
+                <a href="" ng-class="{'active' : currPage==0}" ng-click="jumpTo(0)">Attending</a> >
+                <a ng-class="{'active' : currPage==1, 'disabled' : !canJump(1)}" ng-if="data.guestsAllowed > 1" ng-click="jumpTo(1)">Party Info</a> >
+                <a ng-class="{'active' : currPage==2, 'disabled' : !canJump(2)}" ng-click="jumpTo(2)">Guest Info</a> >
+                <a ng-class="{'active' : currPage==3, 'disabled' : !canJump(3)}" ng-click="jumpTo(3)">Dietary Restrictions</a> >
+                <a ng-class="{'active' : currPage==4, 'disabled' : !canJump(4)}" ng-click="jumpTo(4)">Contact Info</a>
+            </span>
+            <div class="col s12 divider"></div>
+          </div>
+            <div class="pages">
+  			    	<div class="page" ng-switch-when="0"> <!-- page 1 -->
+  			    		<div class="row">
+                  <div class="col s10 offset-s2">
+                    <h5>Will you be attending?</h5>
+                  </div>
+  			    			<form novalidate ng-submit="nextPage()">
+                    <div class="row">
+                      <div class="input-field col s10 offset-s2">
+        								<p>
+        									<input class="with-gap" ng-model="data.attending" type="radio" id="attending" ng-value="true"/>
+        									<label for="attending" ng-class="{ 'primary-text' : data.attending == true }">Yes, I am attending.</label>
+        								</p>
+        								<p>
+        									<input class="with-gap" ng-model="data.attending" type="radio" id="not-attending" ng-value="false"/>
+        									<label for="not-attending" ng-class="{ 'primary-text' : data.attending == false}">No, I cannot make it.</label>
+        								</p>
+                      </div>
+                    </div>
+                    <input type="submit" hidden/>
+  			    			</form>
+  			    		</div>
+  			    	</div> <!-- end page1 -->
+  			    	<div class="page" ng-switch-when="1"> <!-- page 2 -->
+  			    		<div class="row">
+                  <div class="col s10 offset-s2">
+                    <h5>How many people are in your party?</h5>
+                  </div>
+                  <form novalidate ng-submit="nextPage()">
+  			    				<div class="row">
+  					    			<div class="input-field col s8 offset-s2">
+    										<select ng-options="number as number for number in partyOptions" ng-model="data.partySize">
+    											<option value="" disabled selected>Choose your option</option>
+    										</select>
+    										<label>Number of guests (including yourself)</label>
+    									</div>
+    								</div>
+                    <input type="submit" hidden/>
+    							</form>
+  			    		</div>
+  			    	</div><!-- end page2 -->
+              <div class="page" ng-switch-when="2"> <!-- page 3 -->
+                <div class="row">
+                  <div class="col s10 offset-s2">
+                    <h7>{{memberInfoPrompt}} your guest information</h7>
+                  </div>
+                  <form name="guestInfoForm" novalidate ng-submit="nextPage()">
+                    <div class="row" ng-repeat="guest in data.partyMembers">
+                      <div class="row">
+                        <h7>Guest {{$index+1}}</h7>
+                        <div class="col s12 divider"></div>
+                      </div>
+                      <div class="row">
+                        <div class="input-field col s8 offset-s2">
+                          <input type="text" class="validate" name="firstName{{$index}}" required ng-model="guest.firstName"/>
+                          <label for="firstName{{$index}}" ng-class="{'active' : guest.firstName != null}">First Name</label>
+                        </div>
+                        <div class="input-field col s8 offset-s2">
+                          <input type="text" name="lastName" required ng-model="guest.lastName"/>
+                          <label for="lastName" ng-class="{'active' : guest.lastName != null}">Last Name</label>
+                        </div>
+                        <div class="input-field col s8 offset-s2">
+                          <input id="guest-{{$index}}-under21" ng-model="guest.under21" type="checkbox" class="filled-in"></input>
+                          <label for="guest-{{$index}}-under21">Under 21?</label>
+                        </div>
+                      </div>
+                    </div>
+                    <input type="submit" hidden/>
+                  </form>
+                </div>
+              </div><!-- end page3 -->
+              <div class="page" ng-switch-when="3"> <!-- page 4 -->
+                <div class="row">
+                  <div class="col s10 offset-s2">
+                    <h7>Please indicate any dietary restrictions</h7>
+                  </div>
+                  <form novalidate ng-submit="nextPage()">
+                    <div class="row" ng-repeat="guest in data.partyMembers">
+                      <div class="row">
+                        <h7>{{guest.firstName}} {{guest.lastName}}</h7>
+                        <div class="divider col s12"></div>
+                      </div>
+                      <div class="row">
+                        <div class="col s4 offset-s2">
+                          <div class="input-field col s12" ng-repeat="restriction in dietaryRestrictions">
+                            <input type="checkbox" class="filled-in" id="{{guest.firstName}}-{{guest.lastName}}-{{restriction.classification}}" ng-click="calcDietMask(guest, restriction)" ng-checked="isRestricted(guest.diet.mask, restriction.value)">
+                            <label for="{{guest.firstName}}-{{guest.lastName}}-{{restriction.classification}}">{{restriction.classification}}</label>
+                          </div>
+                        </div>
+                        <div class="col s4">
+                          <div class="input-field col s12">
+                            <textarea id="guest-{{$index}}-notes" ng-model="guest.diet.notes" class="materialize-textarea"></textarea>
+                            <label for="guest-{{$index}}-notes" ng-class="{ 'active' : guest.diet.notes}">Notes</label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <input type="submit" hidden/>
+                  </form>
+                </div>
+              </div><!-- end page4 -->
+              <div class="page" ng-switch-when="4"><!-- page 5 -->
+                <div class="row">
+                  <div class="col s10 offset-s2">
+                    <h7>Verify your contact info - just incase we need to get in touch</h7>
+                  </div>
+                  <form name="contactForm" novalidate ng-submit="nextPage()">
+                    <div class="row">
+                      <div class="input-field col s12">
+                        <input type="text" name="address1" ng-model="data.address1" required/>
+                        <label for="address1" ng-class="{'active' : data.address1 != null}">Address Line 1</label>
+                      </div>
+                      <div class="input-field col s12">
+                        <input type="text" name="address2" ng-model="data.address2"/>
+                        <label for="address2" ng-class="{'active' : data.address2 != null}">Address Line 2 (optional)</label>
+                      </div>
+                      <div class="input-field col s4">
+                        <input type="text" name="city" ng-model="data.city" required/>
+                        <label for="city" ng-class="{'active' : data.city != null}">City</label>
+                      </div>
+                      <div class="input-field col s4">
+                        <select name="state" ng-options="state as state.abbrev for state in states track by abbrev" ng-model="data.state" required>
+                          <option value="" disabled selected></option>
+                        </select>
+                        <label for="state">State</label>
+                      </div>
+                      <div class="input-field col s4">
+                        <input type="text" name="zip" ng-pattern="/^[0-9]{5}$/" required ng-model="data.zip"/>
+                        <label for="zip" ng-class="{'active' : data.zip != null || contactInfo.zip.$touched}">ZIP</label>
+                      </div>
+                      <div class="input-field col s6">
+                        <input type="email" name="email" ng-model="data.email" ng-pattern="/^(\w+)(\.\w+)*@(\w+\.)+(\w){2,}$/" required/>
+                        <label for="email" ng-class="{'active' : data.email != null || contactInfo.email.$touched}">Email</label>
+                      </div>
+                      <div class="input-field col s6">
+                        <input type="tel" maxlength="10" name="phone" ng-pattern="/^[0-9]{10}$/" ng-model="data.phone"/>
+                        <label for="phone" ng-class="{'active' : data.phone != null || contactInfo.phone.$touched}">Phone number (optional)</label>
+                      </div>
+                    </div>
+                    <input type="submit" hidden/>
+                  </form>
+                </div>
+              </div><!-- end page5 -->
+            </div>
+          </div><!-- end pages -->
+          <div class="col s1">
+            <a href="" class="btn-floating waves-effect waves-light link rsvp-nav-btn" ng-disabled="currPage >= maxPage || !canAdvance()" ng-click="nextPage()"><i class="material-icons">keyboard_arrow_right</i></a>
+          </div>
 		    </div>
-	    </div>
-	    <div class="row" ng-switch="currPage">
-	    	<div ng-switch-when="0" class="col s12">
-	    		<h5>Please review your information below.</h5>
-	    		<div class="row">
-					<form class="col s12">
-						<div class="row">
-					        <div class="input-field col m6 s12">
-					          	<input id="first-name" type="text" class="validate" ng-model="form.firstName">
-					          	<label ng-class="{'active': form.firstName}" for="first_name">First Name</label>
-					        </div>
-					        <div class="input-field col m6 s12">
-					          	<input id="last-name" type="text" class="validate" ng-model="form.lastName">
-					          	<label ng-class="{'active': form.lastName}" for="last-name">Last Name</label>
-					        </div>
-					    </div>
-					    <div class="row">
-					    	<div class="input-field col s12">
-					    		<input id="email" type="email" class="validate" ng-model="form.email">
-					    		<label ng-class="{'active': form.email}" for="email">Email</label>
-					    	</div>
-					    </div>
-					</form>
-				</div>
-	    	</div>
-	    	<div ng-switch-when="1" class="col s12">
-	    		<h5>Do you plan on attending the wedding?</h5>
-	    		<div class="row">
-	    			<form class="col s12">
-						<p>
-							<input class="with-gap" ng-model="form.attending" type="radio" id="attending" ng-value="true"/>
-							<label for="attending">Yes, I am attending.</label>
-						</p>
-						<p>
-							<input class="with-gap" ng-model="form.attending" type="radio" id="not-attending" ng-value="false"/>
-							<label for="not-attending">No, I cannot make it.</label>
-						</p>
-	    			</form>
-	    		</div>
-	    	</div>
-	    	<div ng-switch-when="2" class="col s12">
-	    		<h5>How many people are in your party?</h5>
-	    		<div class="row">
-	    			<form class="col s12">
-	    				<div class="row">
-			    			<div class="input-field col s12">
-								<select ng-options="number as number for number in partyOptions" ng-model="form.party">
-									<option value="" disabled selected>Choose your option</option>
-								</select>
-								<label>Number of guests (including yourself)</label>
-							</div>
-						</div>
-					</form>
-	    		</div>
-	    	</div>
-	    	<div ng-switch-when="3" class="col s12">
-	    		<h5>Select your food option.</h5>
-	    		<div class="row">
-	    			<form class="col s12">
-						<p>
-							<input class="with-gap" ng-model="form.meal" type="radio" id="meal1" ng-value="0"/>
-							<label for="meal1">Chicken</label>
-						</p>
-						<p>
-							<input class="with-gap" ng-model="form.meal" type="radio" id="meal2" ng-value="1"/>
-							<label for="meal2">Vegetarian Lasagna</label>
-						</p>
-	    			</form>
-	    		</div>
-	    	</div>
-	    </div>
-	    <div class="row">
-	    	<div class="col s12">
-	    		<a class="btn pull-left" ng-if="currPage > 0 && currPage <= maxPage" ng-click="prevPage()">Back</a>
-	    		<a class="btn pull-right" ng-if="0 <= currPage < maxPage" ng-click="nextPage()" ng-disabled="!(filled())">Continue</a>
-	    		<a class="btn pull-right" ng-if="currPage == maxPage" ng-click="submit()">Submit</a>
-	    	</div>
-	    </div>
-	</div>
-</div>
-<confirm-modal data="data" submit="submit"></confirm-modal>
+		</div>
+	</div><!-- /.modal-content -->
+	<div class="modal-footer">
+    <div class="row">
+      <div class="col s8">
+        <p ng-if="data.name">If you are not the {{ data.name }} party, please <a href="" ng-click="restart()">restart</a> your rsvp.</p>
+      </div>
+      <div class="col s4">
+  	    <a class="modal-action modal-close waves-effect btn" ng-click="close()">Close</a>
+      </div>
+    </div>
+	</div><!-- /.modal-footer -->
+</div><!-- /.modal -->
+<confirm-modal data="data" confirm="confirm" jump-to="jumpTo" restrictions="dietaryRestrictions"></confirm-modal>

@@ -4,48 +4,55 @@
 	var app = angular.module("weddingApp");
 
 	app.controller("rsvpCtrl", rsvpCtrl);
+	app.directive("rsvpModal", rsvpModal);
 	app.directive("confirmModal", confirmationDirective);
+	app.filter("dietRestrictionFilter", dietRestrictionFilter);
 
-	rsvpCtrl.$inject = ["$rootScope", "$scope", "$log", "dataSrv"];
-	function rsvpCtrl($rootScope, $scope, $log, dataSrv) {
-		$scope.maxPage = 3;
-		$scope.currPage = 0;
-		$scope.form = {"firstName" : '',
-					   "lastName"  : '',
-					   "inviteId"   : null,
-					   "email"      : '',
-					   "attending"  : null,
-					   "party"      : 1,
-					   "mealId"		: null,	
-					   "party-members" : [] };
+	rsvpCtrl.$inject = ["$rootScope", "$scope", "$log", "$timeout", "dataSrv", "guestSrv"];
+	function rsvpCtrl($rootScope, $scope, $log, $timeout, dataSrv, guestSrv) {
+		//init variables
+		resetData();
 
-		// if (!$rootScope.user) {
-		// 	$('#login-modal').modal('open');
-		// } else {
-		// 	$scope.user = $rootScope.user;
-		// 	//fillFormData();
-		// }
-
-		//$scope.user = dataSrv.getInviteeByUser();
-
-		//fillFormData();
-
-		function fillFormData() {
-			var inviteInfo = dataSrv.getInviteeByUser();
-			$scope.form.firstName = $scope.user.first_name;
-			$scope.form.lastName = $scope.user.last_name;
-			$scope.form.email = $scope.user.email;
-			$scope.partyOptions = [];
-			for (var i=1; i <= inviteInfo.party; i++) {
-				$scope.partyOptions.push(i);
-			}
+		$scope.getParty = function() {
+			if (!$scope.entryPage.partyKey) return;
+			//TODO: async function
+			$scope.loading = true;
+			$timeout(() => {
+				$scope.loading = false;
+				$scope.data.partyId=4;
+				$scope.data.name = "Donner";
+				$scope.data.partyMembers = [guestSrv.createNewGuest(4)];
+				$scope.data.partyMembers[0].firstName="John";
+				$scope.data.partyMembers[0].lastName="Donner";
+				$scope.data.guestsAllowed = 2;
+				$scope.data.city = 'Iowa City';
+				$scope.data.state = { abbrev : "IA" ,
+					name : "Iowa"};
+			 	$scope.data.phone = "6129787404";
+			 	$scope.data.email ="jane.doe@gmail.com";
+				$scope.data.address1 = "blah";
+				$scope.data.address2 = "two";
+				$scope.data.zip = "52246";
+				initGuestsAllowed();
+			}, 1000);
 		}
 
 		$scope.nextPage = function() {
-			if ($scope.currPage == 1 && $scope.form.attending == false) {
-				$(document).ready(function() {
+			if ($scope.currPage == 0) {
+				if ($scope.data.attending == false) {
 					$("#confirm-modal").modal('open');
-				});
+					return;
+				}
+				if ($scope.data.guestsAllowed == 1) {
+					$scope.data.partySize = 1;
+					$scope.currPage++;
+				}
+			}
+			if ($scope.currPage == 1 && $scope.canAdvance()) {
+				initPartyMembers();
+			}
+			if ($scope.currPage == 4 && $scope.canAdvance()) {
+				$("#confirm-modal").modal('open');
 				return;
 			}
 			$scope.currPage++;
@@ -53,56 +60,128 @@
 		}
 
 		$scope.prevPage = function() {
+			if ($scope.currPage == 0) {
+				return
+			}
 			$scope.currPage--;
 			loadSelect();
 		}
 
-		$scope.filled = function() {
-			switch ($scope.currPage) {
-				case 0:
-					if (!$scope.form.firstName) {
-						return false;
-					}
-					if (!$scope.form.lastName) {
-						return false;
-					}
-					if (!$scope.form.email) {
-						return false;
-					}
-					return true;
-				case 1:
-					if ($scope.form.attending == null) {
-						return false;
-					}
-					return true;
-				case 2:
-					if (!$scope.form.party){
-						return false;
-					}
-					return true;
-				case 3:
-					if (!$scope.meal) {
-						return false;
-					}
-					return true;
-					break;
-				default:
-					throw Error("Did not recognize page!");
-					break;
-			}
+		$scope.restart = function() {
+			$scope.loading = true;
+			resetData();
 		}
 
 		$scope.jumpTo = function(page) {
-			if (page < $scope.currPage)
-			$scope.currPage = page;
+			if ($scope.canJump(page)) {
+				$scope.currPage = page;
+				loadSelect();
+			}
 		}
 
-		$scope.submit = function() {
-			$log.debug("submitted", $scope.form);
+		$scope.canJump = function(page) {
+			return $scope.currPage >= page;
 		}
 
-		$scope.login = function() {
-			$("#login-modal").modal('open');
+		$scope.close = function() {
+			$rootScope.rsvping = false;
+		}
+
+		$scope.canAdvance = function() {
+			switch ($scope.currPage) {
+				case 0:
+					if ($scope.data.attending != null) return true;
+					return false;
+				case 1:
+					if ($scope.data.partySize) return true;
+					return false;
+				case 2:
+					return verifyPartyMembers();
+				case 3:
+					return true;
+				case 4:
+					if (!$scope.data.address1) return false;
+					if (!$scope.data.email) return false;
+					if (!$scope.data.city) return false;
+					if (!$scope.data.state) return false;
+					if (!$scope.data.zip) return false;
+					return true;
+				default :
+					return false;
+			}
+		}
+
+		// use bit-wise XOR to return the mask.
+		$scope.calcDietMask = function(guest, restriction) {
+			guest.diet.mask = guest.diet.mask ^ restriction.value;
+		}
+
+		$scope.isRestricted = function(guestMask, restrictionVal) {
+			return (guestMask & restrictionVal);
+		}
+
+		$scope.confirm = function() {
+			console.log("RSVPed confirmed");
+			$scope.loading = true;
+			//TODO: async call to save RSVP data
+			$timeout( () => {
+				$scope.loading = false;
+				$("#rsvp-modal").modal('close');
+				$rootScope.rsvping=false;
+				resetData();
+				$scope.data.rsvped = true;
+				Materialize.toast($('<span>Your RSVP has been saved <i class="material-icons success-text">check</i></span>'), 5000)
+			}, 2000);
+		}
+
+		function initPartyMembers() {
+			while ($scope.data.partyMembers.length > $scope.data.partySize) {
+				$scope.data.partyMembers.pop();
+			}
+			$scope.memberInfoPrompt = ($scope.data.partyMembers.length == $scope.data.partySize) ? "Verify" : "Enter";
+			for (let i=$scope.data.partyMembers.length; i < $scope.data.partySize; i++) {
+				$scope.data.partyMembers[i] = guestSrv.createNewGuest($scope.data.partyId);
+			}
+		}
+
+		function verifyPartyMembers() {
+			for (let i=0; i < $scope.data.partyMembers.length; i++) {
+				let member = $scope.data.partyMembers[i];
+				if (!member.firstName || !member.lastName) return false;
+			}
+			return true;
+		}
+
+		function resetData() {
+			//TODO : remove this when we get data async
+			$scope.data = {
+				partyId : null,
+				guestsAllowed : 1,
+				partySize : null,
+				name : null,
+				address1 : null,
+				address2 : null,
+				city : null,
+				state : null,
+				attending : null,
+				rsvped : false,
+				zip : null,
+				email : null,
+				phone : null,
+				partyMembers : []
+			};
+			initGuestsAllowed();
+			$scope.maxPage = 5;
+			$scope.currPage = 0;
+			$scope.entryPage = { partyKey : null };
+			$scope.loading = false;
+		}
+
+		function initGuestsAllowed() {
+			$scope.partyOptions = [];
+			for (let i=1; i <= $scope.data.guestsAllowed; i++) {
+				$scope.partyOptions.push(i);
+			}
 		}
 
 		function loadSelect() {
@@ -110,12 +189,61 @@
 				$('select').material_select();
 			});
 		}
+
+		//TODO: replace these with asyc grabbing of data
+		$scope.dietaryRestrictions =[
+			{
+				classification : "Vegetarian",
+				value : 1
+			},
+			{
+				classification : "Vegan",
+				value : 2
+			},
+			{
+				classification : "Gluten-free",
+				value : 4
+			},
+		];
+		$scope.states=[{
+			abbrev: "IA",
+			name: "Iowa"
+		}];
 	}
 
+	function rsvpModal() {
+		return {
+			restrict : 'E',
+			templateUrl : 'app/templates/RSVP.html',
+			controller : 'rsvpCtrl'
+		}
+	}
 	function confirmationDirective() {
 		return {
 			'restrict' : 'E',
-			'templateUrl' : 'app/templates/confirm.html'
+			'templateUrl' : 'app/templates/confirm.html',
+			'scope' : {
+				data : '=',
+				confirm : '=',
+				jumpTo : '=',
+				restrictions : '='
+			}
+		}
+	}
+
+	function dietRestrictionFilter() {
+		return function(guest, restrictions) {
+			let list = "";
+			for (let restriction of restrictions) {
+				if (guest.diet.mask & restriction.value) {
+					list+=restriction.classification;
+					list+=" & ";
+				}
+			}
+			if (list.length == 0) {
+				return "None";
+			}
+			return list.substr(0, list.length-3);
 		}
 	}
 })();
