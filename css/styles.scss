@@ -139,7 +139,30 @@ a {
 	}
 }
 
+@media (max-width:700px) {
+	.modal {
+		width : 100%;
+		top : 5% !important;
+		height : 90%;
+		max-height : 90%;
+		&.modal-fixed-footer {
+			height : 90%;
+			max-height: 90%;
+		}
+	}
+}
 
+@media (max-width:600px) {
+	#main-title-mobile {
+		position:relative;
+		h3 {
+			margin-left:10%;
+			position: absolute;
+			top:0;
+			left:0;
+		}
+	}
+}
 
 /**
  * Identifiers

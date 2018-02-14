@@ -3,16 +3,27 @@
 	<div class="footer-copyright">
 		<div class="container">
 	    	<div class="row">
-	    		<div class="col s4 left-align">
-		    		&copy; 2017 Jon Opdahl, All Rights Reserved
-		    	</div>
-		    	<div id="social-btns" class="col s4 center-align">
+    		<div class="col l4 left-align hide-on-med-and-down">
+	    		&copy; 2017 Jon Opdahl, All Rights Reserved
+	    	</div>
+				<div class="col s12 center-align hide-on-large-only">
+					&copy; 2017 Jon Opdahl, All Rights Reserved
+				</div>
+	    	<div id="social-btns" class="col l4 s12 center-align">
 					<a class="btn-floating btn hoverable" href="https://twitter.com/WhatsOpdahl"><i class="fa fa-twitter"></i></a>
 					<a class="btn-floating btn hoverable" href="https://www.facebook.com/jon.opdahl.1"><i class="fa fa-facebook"></i></a>
 					<a class="btn-floating btn hoverable" href="https://www.github.com/whatsopdahl"><i class="fa fa-github"></i></a>
 					<a class="btn-floating btn hoverable" href="https://www.linkedin.com/pub/jonathan-opdahl/b0/123/24a"><i class="fa fa-linkedin"></i></a>
 				</div>
-				<div id="whatsopdahl-logo" class="col s4 right-align">
+				<div id="whatsopdahl-logo" class="col l4 right-align hide-on-med-and-down">
+					A&nbsp;
+					<a href="http://whatsopdahl.com" ng-mouseenter="hovering=true;" ng-mouseleave="hovering=false;">
+						<img ng-hide="hovering" src="img/whatsOpdahlLogo.png">
+						<img ng-show="hovering" src="img/whatsOpdahlLogo:hover.png">
+					</a>
+					&nbsp;site
+				</div>
+				<div id="whatsopdahl-logo" class="col s12 center-align hide-on-large-only">
 					A&nbsp;
 					<a href="http://whatsopdahl.com" ng-mouseenter="hovering=true;" ng-mouseleave="hovering=false;">
 						<img ng-hide="hovering" src="img/whatsOpdahlLogo.png">
