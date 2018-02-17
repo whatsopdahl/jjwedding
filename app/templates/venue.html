@@ -1,0 +1,44 @@
+<div class="parallax-container">
+  <div class="parallax">
+    <img src="img/TheVanDusenMansion.jpg">
+  </div>
+</div>
+<div>
+  <div class="container venue">
+    <div class="row">
+      <div class="col m6 s12">
+        <div class="row">
+          <h3 class="title">The Van Dusen Mansion</h3>
+          <h6>Address</h6>
+          <div class="divider"></div>
+          <a ng-href="{{directionsUrl}}" target="_blank">
+            <p>1900 Lasalle Ave</p>
+            <p>Minneapolis, MN 55403</p>
+          </a>
+          <div class="col s12 right-align">
+            <a class="btn ptimary waves-effect waves-light" href="http://www.thevandusenmansion.com/gallery/">View Gallery</a>
+          </div>
+        </div>
+      </div>
+      <div class="col m6 s12">
+        <div class="row">
+          <loading-component ng-if="loading"></loading-component>
+          <ui-gmap-google-map center='map.center' control='googleMap' zoom='map.zoom'>
+            <ui-gmap-marker
+                    idKey='1'
+                    coords='marker.coords'
+                    options='marker.options'
+                    click='openInfoWindow()'
+                    control='vdMarker'>
+            </ui-gmap-marker>
+          </ui-gmap-google-map>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="vd-logo" class="parallax-container">
+  <div class="parallax gold-bg">
+      <img src="img/van-dusen-logo.png">
+  </div>
+</div>

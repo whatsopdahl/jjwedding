@@ -8499,7 +8499,13 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
  * Tags
  */
 html, body {
-  font-family: 'Sansita', sans-serif; }
+  font-family: 'Sansita', sans-serif;
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column; }
+
+main {
+  flex: 1 0 auto; }
 
 nav i {
   display: inline !important; }
@@ -8575,6 +8581,23 @@ a:disabled {
     top: 50%;
     transform: translateY(-50%);
     width: 100%; }
+
+.parallax-container {
+  height: 400px; }
+  .parallax-container .parallax {
+    height: 100%; }
+    .parallax-container .parallax.gold-bg {
+      background-color: #948158; }
+      .parallax-container .parallax.gold-bg img {
+        max-width: 100%;
+        height: auto;
+        min-height: 0; }
+
+.angular-google-map-container {
+  height: 500px; }
+
+.container.venue {
+  padding-top: 20px; }
 
 @media (max-width: 700px) {
   .modal {

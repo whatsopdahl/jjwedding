@@ -23,7 +23,8 @@
 			templateUrl : "app/templates/weddingparty.html"
 		})
 		.when("/venue", {
-			templateUrl : "app/templates/venue.html"
+			templateUrl : "app/templates/venue.html",
+			controller : 'venueCtrl'
 		})
 		.when("/registry", {
 			templateUrl : "app/templates/registry.html"
