@@ -59,3 +59,11 @@ typings/
 
 # sass-cache
 .sass-cache/
+
+# npm package lock
+package-lock.json
+
+# copyright sensitive
+img
+!img/whatsOpdahlLogo.png
+!img/whatsOpdahlLogo:hover.png
