@@ -9,9 +9,9 @@
 	function dataSrv($http) {
 		return {
 			getGalleryImages 		: getGalleryImages,
-			isInvited				: isInvited,
-			getInviteeByUser		: getInviteeByUser,
-			hasRSVPed				: hasRSVPed
+			getParty				: getParty,
+			saveRsvp				: saveRsvp,
+			getDietOptions			: getDietOptions
 		}
 
 		function getGalleryImages() {
@@ -48,26 +48,25 @@
 			return imgObjs
 		}
 
-		function isInvited(name) {
-			return true;
-			return $http.get(URL).then(function(response) {
-				return response.data;
-			});
+		function getParty(id) {
+			return $http.post('/rsvp/getPartyData',{partyKey: id})
+				.then(response => {
+					return response.data
+				})
 		}
 
-		function getInviteeByUser(user) {
-			return {"first_name" : "Jim Bob",
-					"last_name"  : "Cooter",
-					"email"      : "JBCooter@pornhub.gov",
-					"party"		 : 2};
+		function saveRsvp(data) {
+			return $http.post('/rsvp/saveRsvp', {partyData: data})
+				.then(response => {
+					return response.data
+				})
 		}
 
-		function getInviteeById(id) {
-			return getInviteebyUser();
-		}
-
-		function hasRSVPed(user) {
-			return false
+		function getDietOptions() {
+			return $http.get('/rsvp/getDietOptions')
+				.then(response => {
+					return response.data
+				})
 		}
 	}
 })();

@@ -7,9 +7,7 @@ module.exports = {
      * @returns a boolean if valid
      */
     getDietOptions: function() {
-      return new Promise(resolve => {
-        resolve(this.getDietOptions())
-      })
+      return Promise.resolve(this.getDietOptions())
     }
   },
 
@@ -23,12 +21,10 @@ module.exports = {
      */
     getPartyData: function (data) {
       if (!data.partyKey) {
-        error('Empty partyKey')
-        return
+        return Promise.reject(new Error('Empty partyKey'))
       }
       if (data.partyKey.length > 14){
-        error(`Invalid partyKey length. The max party key length is 14, but received ${data.partyKey.length}`)
-        return
+        return Promise.reject(new Error(`Invalid partyKey length. The max party key length is 14, but received ${data.partyKey.length}`))
       }
       let partyKey = encodeURIComponent(data.partyKey)
       return this.getPartyData(partyKey)
@@ -39,8 +35,8 @@ module.exports = {
      * @param {object} data 
      * @returns a boolean if valid
      */
-    saveRsvp: function (data, success, error) {
-      //TODO: implement
+    saveRsvp: function (data) {
+      return this.savePartyData(data.partyData)
     }
   }
 }

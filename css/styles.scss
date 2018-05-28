@@ -128,6 +128,10 @@ a {
 	min-height : 300px;
 }
 
+.bottom-padded {
+	margin-bottom: 56px;
+}
+
 .loading-wrapper {
 	background-color: rgba(255,255,255,.8);
 	position: absolute;
@@ -176,6 +180,15 @@ a {
 	padding: 20px;
 }
 
+.modal.modal-fixed-footer {
+	.modal-content {
+		height: auto;
+	}
+	.modal-footer {
+		z-index: 5;
+	}
+}
+
 @media (max-width:700px) {
 	.modal {
 		width : 100%;
@@ -190,15 +203,6 @@ a {
 }
 
 @media (max-width:600px) {
-	#main-title-mobile {
-		position:relative;
-		h3 {
-			margin-left:10%;
-			position: absolute;
-			top:0;
-			left:0;
-		}
-	}
 	.mobile-fill-btn {
 		width: 100%;
 	}
@@ -216,6 +220,18 @@ a {
  */
 
 #rsvp-modal {
+	.nav-btn-wrapper {
+		position: absolute;
+		top: 50%;
+		transform: translateY(-50%);
+		z-index: 20;
+		&#prev-btn {
+			left: 20px;
+		}
+		&#next-btn {
+			right: 20px;
+		}
+	}
 	span {
 		color: $secondary-color;
 		a {
@@ -231,9 +247,6 @@ a {
 			}
 		}
 	}
-	.modal-content {
-		overflow-y: hidden;
-	}
 	.rsvp-action-pane {
 		height : 100%;
 		.page-container {
@@ -241,7 +254,6 @@ a {
 			.pages {
 				height : 100%;
 				position: relative;
-				overflow-y: auto;
 				.page {
 					position: absolute;
 					top:0;

@@ -10,25 +10,22 @@
 
 	rsvpCtrl.$inject = ["$rootScope", "$scope", "$log", "$timeout", "dataSrv", "guestSrv"];
 	function rsvpCtrl($rootScope, $scope, $log, $timeout, dataSrv, guestSrv) {
-		//init variables
 		resetData();
 
 		$scope.getParty = function() {
 			if (!$scope.entryPage.partyKey) return;
-			//TODO: async function
 			$scope.loading = true;
-			$timeout(() => {
-				$scope.loading = false;
-				$scope.data.partyId=4;
-				$scope.data.name = "Donner";
-				$scope.data.partyMembers = [guestSrv.createNewGuest(4)];
-				$scope.data.partyMembers[0].firstName="John";
-				$scope.data.partyMembers[0].lastName="Donner";
-				$scope.data.guestsAllowed = 2;
-			 	$scope.data.phone = "6129787404";
-			 	$scope.data.email = "jane.doe@gmail.com";
-				initGuestsAllowed();
-			}, 1000);
+			dataSrv.getParty($scope.entryPage.partyKey)
+				.then(data => {
+					$scope.data = data
+					setMaxSize()
+					$scope.loading = false
+				})
+				.catch(err => {
+					console.log(err)
+					$scope.error = err.data
+					$scope.loading = false
+				})
 		}
 
 		$scope.nextPage = function() {
@@ -37,8 +34,8 @@
 					$("#confirm-modal").modal('open');
 					return;
 				}
-				if ($scope.data.guestsAllowed == 1) {
-					$scope.data.partySize = 1;
+				if ($scope.data.maxSize == 1) {
+					$scope.data.size = 1;
 					$scope.currPage++;
 				}
 			}
@@ -87,7 +84,7 @@
 					if ($scope.data.attending != null) return true;
 					return false;
 				case 1:
-					if ($scope.data.partySize) return true;
+					if ($scope.data.size) return true;
 					return false;
 				case 2:
 					return verifyPartyMembers();
@@ -110,32 +107,37 @@
 		}
 
 		$scope.confirm = function() {
-			console.log("RSVPed confirmed");
 			$scope.loading = true;
-			//TODO: async call to save RSVP data
-			$timeout( () => {
-				$scope.loading = false;
-				$("#rsvp-modal").modal('close');
-				$rootScope.rsvping=false;
-				resetData();
-				$scope.data.rsvped = true;
-				Materialize.toast($('<span>Your RSVP has been saved <i class="material-icons success-text">check</i></span>'), 5000)
-			}, 2000);
+			$scope.data.rsvped = true;
+			dataSrv.saveRsvp($scope.data)
+				.then(response => {
+					console.log(`success response: ${JSON.stringify(response, null, 2)}`)
+					$scope.loading = false;
+					$("#rsvp-modal").modal('close');
+					$rootScope.rsvping=false;
+					resetData();
+					Materialize.toast($('<span>Your RSVP has been saved <i class="material-icons success-text">check</i></span>'), 5000)
+				})
+				.catch(err => {
+					$scope.loading = false
+					$scope.data.rsvped = false
+					Materialize.toast($('<span>An error occurred while saving - please try again later<i class="material-icons error-text">clear</i></span>'), 5000)
+				})
 		}
 
 		function initPartyMembers() {
-			while ($scope.data.partyMembers.length > $scope.data.partySize) {
-				$scope.data.partyMembers.pop();
+			while ($scope.data.members.length > $scope.data.size) {
+				$scope.data.members.pop();
 			}
-			$scope.memberInfoPrompt = ($scope.data.partyMembers.length == $scope.data.partySize) ? "Verify" : "Enter";
-			for (let i=$scope.data.partyMembers.length; i < $scope.data.partySize; i++) {
-				$scope.data.partyMembers[i] = guestSrv.createNewGuest($scope.data.partyId);
+			$scope.memberInfoPrompt = ($scope.data.members.length == $scope.data.size) ? "Verify" : "Enter";
+			for (let i=$scope.data.members.length; i < $scope.data.size; i++) {
+				$scope.data.members[i] = guestSrv.createNewGuest($scope.data.partyId);
 			}
 		}
 
 		function verifyPartyMembers() {
-			for (let i=0; i < $scope.data.partyMembers.length; i++) {
-				let member = $scope.data.partyMembers[i];
+			for (let i=0; i < $scope.data.members.length; i++) {
+				let member = $scope.data.members[i];
 				if (!member.firstName || !member.lastName) return false;
 			}
 			return true;
@@ -145,25 +147,24 @@
 			//TODO : remove this when we get data async
 			$scope.data = {
 				partyId : null,
-				guestsAllowed : 1,
-				partySize : null,
+				maxSize : 1,
+				size : null,
 				name : null,
 				attending : null,
 				rsvped : false,
 				email : null,
-				phone : null,
-				partyMembers : []
+				members : []
 			};
-			initGuestsAllowed();
+			setMaxSize();
 			$scope.maxPage = 5;
 			$scope.currPage = 0;
 			$scope.entryPage = { partyKey : null };
 			$scope.loading = false;
 		}
 
-		function initGuestsAllowed() {
+		function setMaxSize() {
 			$scope.partyOptions = [];
-			for (let i=1; i <= $scope.data.guestsAllowed; i++) {
+			for (let i=1; i <= $scope.data.maxSize; i++) {
 				$scope.partyOptions.push(i);
 			}
 		}

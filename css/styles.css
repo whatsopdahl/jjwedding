@@ -8567,6 +8567,9 @@ a:disabled {
 .pages {
   min-height: 300px; }
 
+.bottom-padded {
+  margin-bottom: 56px; }
+
 .loading-wrapper {
   background-color: rgba(255, 255, 255, 0.8);
   position: absolute;
@@ -8605,6 +8608,11 @@ a:disabled {
   min-height: 50vh;
   padding: 20px; }
 
+.modal.modal-fixed-footer .modal-content {
+  height: auto; }
+.modal.modal-fixed-footer .modal-footer {
+  z-index: 5; }
+
 @media (max-width: 700px) {
   .modal {
     width: 100%;
@@ -8615,14 +8623,6 @@ a:disabled {
       height: 90%;
       max-height: 90%; } }
 @media (max-width: 600px) {
-  #main-title-mobile {
-    position: relative; }
-    #main-title-mobile h3 {
-      margin-left: 10%;
-      position: absolute;
-      top: 0;
-      left: 0; }
-
   .mobile-fill-btn {
     width: 100%; } }
 @media (min-width: 600px) {
@@ -8632,6 +8632,15 @@ a:disabled {
 /**
  * Identifiers
  */
+#rsvp-modal .nav-btn-wrapper {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 20; }
+  #rsvp-modal .nav-btn-wrapper#prev-btn {
+    left: 20px; }
+  #rsvp-modal .nav-btn-wrapper#next-btn {
+    right: 20px; }
 #rsvp-modal span {
   color: #757575; }
   #rsvp-modal span a {
@@ -8642,16 +8651,13 @@ a:disabled {
       color: #757575; }
     #rsvp-modal span a:hover {
       text-decoration: underline; }
-#rsvp-modal .modal-content {
-  overflow-y: hidden; }
 #rsvp-modal .rsvp-action-pane {
   height: 100%; }
   #rsvp-modal .rsvp-action-pane .page-container {
     height: 100%; }
     #rsvp-modal .rsvp-action-pane .page-container .pages {
       height: 100%;
-      position: relative;
-      overflow-y: auto; }
+      position: relative; }
       #rsvp-modal .rsvp-action-pane .page-container .pages .page {
         position: absolute;
         top: 0;

@@ -2,7 +2,7 @@
 <div class="modal modal-fixed-footer" id="confirm-modal">
   <div class="modal-content">
     <h3> Confirm RSVP </h3>
-    <div class="col s12">
+    <div class="col s12 bottom-padded">
     	<p>Please validate that the following data is correct. Once submitted, you will need to contact the groom to change your RSVP details.</p>
     	<div class="col s12 divider"></div>
       <div class="card primary">
@@ -13,14 +13,8 @@
       <div ng-if="data.attending" class="card primary">
         <div class="card-content white-text">
           <span class="card-title">Contact Info</span>
-          <h6>Address</h6>
-          <p>{{data.address1}}</p>
-          <p ng-if="data.address2">{{data.address2}}</p>
-          <p>{{data.city}}, {{data.state.abbrev}} {{data.zip}}</p>
           <h6>Email</h6>
           <p>{{data.email}}</p>
-          <h6 ng-if="data.phone">Phone</h6>
-          <p>{{data.phone}}</p>
         </div>
         <div class="card-action right-align">
           <a class="modal-action modal-close waves-effect btn right-align" ng-click="jumpTo(4)">Change</a>
@@ -29,9 +23,9 @@
       <div ng-if="data.attending" class="card primary">
         <div class="card-content white-text">
           <span class="card-title">Guest Info</span>
-          <h6 ng-if="data.guestsAllowed > 1">Number of Guests</h6>
-          <p>{{data.partySize}}</p>
-          <div ng-repeat="guest in data.partyMembers">
+          <h6 ng-if="data.maxSize > 1">Number of Guests</h6>
+          <p>{{data.size}}</p>
+          <div ng-repeat="guest in data.members">
             <h6>{{guest.firstName}} {{guest.lastName}}</h6>
             <p><strong>Dietary Restrictions:</strong> {{guest | dietRestrictionFilter : restrictions}}</p>
             <p><strong>Notes:</strong> {{guest.diet.notes == null ? 'None' : guest.diet.notes}}</p>

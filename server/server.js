@@ -13,16 +13,6 @@ app.use(express.static(path.resolve(__dirname, "..")))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
-app.use(function(req, res, next) {
-  try {
-    logger.logRequest(req)
-  } catch (e) {
-    console.error(e)
-  }
-  next()
-});
-
-
 app.post("/rsvp/:func", (req, res) => {
   let func = req.params.func
   if (!rsvpApi.post[func]) {
@@ -39,7 +29,8 @@ app.post("/rsvp/:func", (req, res) => {
       res.status(200).send(data)
     })
     .catch(err => {
-      res.status(400).send(err)
+      logger.error(err)
+      res.status(400).send(err.message)
     })
 });
 
@@ -58,7 +49,8 @@ app.get("/rsvp/:func", (req, res) => {
       res.status(200).send(data)
     })
     .catch(err => {
-      res.status(400).send(err)
+      logger.error(err)
+      res.status(400).send(err.message)
     })
 });
 

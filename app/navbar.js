@@ -6,8 +6,8 @@
 	app.directive('navbar', navbar);
 	app.controller('navCtrl', navCtrl);
 
-	navCtrl.$inject = ["$log", "$scope", "$rootScope", "$location", "authSrv"];
-	function navCtrl($log, $scope, $rootScope, $location, authSrv) {
+	navCtrl.$inject = ["$log", "$scope", "$rootScope", "$location"];
+	function navCtrl($log, $scope, $rootScope, $location) {
 		$rootScope.rsvping = false;
 
 		$scope.isactive = function(page) {

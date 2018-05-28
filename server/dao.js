@@ -3,6 +3,7 @@ const _ = require('lodash')
 const hexConverter = require('./hexConverter')
 const hexToDecimal = hexConverter.hexToDecimal
 const decimalToHex = hexConverter.decimalToHex
+const logger = require('./logger')
 
 module.exports = class DAO {
   /**
@@ -16,17 +17,21 @@ module.exports = class DAO {
    * @param {string} id the (URIencoded) unique party id
    */
   getPartyData(id) {
+    let givenId = id
     while (id.length < 14) {
       id += '0'
     }
+    id = _.toUpper(id)
+    let numericalId = hexToDecimal(id)
     return new Promise((resolve, reject) => {
-      this.datastore.get(this.datastore.key(['party', hexToDecimal(id)]), (err, entity) => {
+      this.datastore.get(this.datastore.key(['party', numericalId]), (err, entity) => {
         if (err) {
           reject(err)
         } else if (!entity) {
-          reject(new Error(`invalid party key ${id}`))
+          logger.log(`invalid party key ${id}`)
+          reject(new Error(`invalid party key ${givenId}`))
         }
-        resolve(entity)
+        resolve(_.assign(entity, {id: hexToDecimal(id)}))
       })
     })
   }
@@ -249,18 +254,19 @@ module.exports = class DAO {
    */
   savePartyData(party) {
     if (!party.id) {
-      party.id = this.datastore.key('party', 'partyKey')
+      party.id = this.datastore.key('party')
+    } else {
+      party.id = this.datastore.key(['party', party.id])
     }
     const partyEntity = this.createPartyEntity(party)
 
-
     return this.datastore.upsert(partyEntity)
       .then(() => {
-        console.log(`Party ${party.id.id} created successfully.`)
+        logger.log(`Party ${party.id.id} saved successfully.`)
         return party.id
       })
       .catch(err => {
-        return error
+        return err
       });
   }
 
