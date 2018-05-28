@@ -67,3 +67,10 @@ package-lock.json
 img
 !img/whatsOpdahlLogo.png
 !img/whatsOpdahlLogo:hover.png
+
+# environment files
+environment.*.js
+env.sh
+
+# google cloud key file
+JJWedding-gcp-creds.json

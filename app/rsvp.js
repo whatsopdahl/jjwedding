@@ -25,14 +25,8 @@
 				$scope.data.partyMembers[0].firstName="John";
 				$scope.data.partyMembers[0].lastName="Donner";
 				$scope.data.guestsAllowed = 2;
-				$scope.data.city = 'Iowa City';
-				$scope.data.state = { abbrev : "IA" ,
-					name : "Iowa"};
 			 	$scope.data.phone = "6129787404";
-			 	$scope.data.email ="jane.doe@gmail.com";
-				$scope.data.address1 = "blah";
-				$scope.data.address2 = "two";
-				$scope.data.zip = "52246";
+			 	$scope.data.email = "jane.doe@gmail.com";
 				initGuestsAllowed();
 			}, 1000);
 		}
@@ -100,12 +94,7 @@
 				case 3:
 					return true;
 				case 4:
-					if (!$scope.data.address1) return false;
-					if (!$scope.data.email) return false;
-					if (!$scope.data.city) return false;
-					if (!$scope.data.state) return false;
-					if (!$scope.data.zip) return false;
-					return true;
+					return $scope.data.email;
 				default :
 					return false;
 			}
@@ -159,13 +148,8 @@
 				guestsAllowed : 1,
 				partySize : null,
 				name : null,
-				address1 : null,
-				address2 : null,
-				city : null,
-				state : null,
 				attending : null,
 				rsvped : false,
-				zip : null,
 				email : null,
 				phone : null,
 				partyMembers : []
@@ -197,18 +181,10 @@
 				value : 1
 			},
 			{
-				classification : "Vegan",
+				classification : "GLuten-free",
 				value : 2
-			},
-			{
-				classification : "Gluten-free",
-				value : 4
-			},
+			}
 		];
-		$scope.states=[{
-			abbrev: "IA",
-			name: "Iowa"
-		}];
 	}
 
 	function rsvpModal() {

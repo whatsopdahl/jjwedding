@@ -11,7 +11,7 @@
 						<div class="input-field col s12">
 							<label for="party-key">Party Key</label>
 							<input id="party-key" ng-model="entryPage.partyKey" ng-minlength="8"
-                ng-maxlength="8" type="text" name="key" min="8" max="8" required/>
+                ng-maxlength="8" ng-pattern="/\w/" type="text" name="key" min="8" max="8" required/>
 						</div>
 						<button type="submit" class="pull-right btn success waves-effect waves-light"
               ng-class="{ 'disabled' : rsvpEntryForm.key.$invalid }">Validate</button>
@@ -164,28 +164,6 @@
                   </div>
                   <form name="contactForm" novalidate ng-submit="nextPage()">
                     <div class="row">
-                      <div class="input-field col s12">
-                        <input type="text" name="address1" ng-model="data.address1" required/>
-                        <label for="address1" ng-class="{'active' : data.address1 != null}">Address Line 1</label>
-                      </div>
-                      <div class="input-field col s12">
-                        <input type="text" name="address2" ng-model="data.address2"/>
-                        <label for="address2" ng-class="{'active' : data.address2 != null}">Address Line 2 (optional)</label>
-                      </div>
-                      <div class="input-field col m4 s6">
-                        <input type="text" name="city" ng-model="data.city" required/>
-                        <label for="city" ng-class="{'active' : data.city != null}">City</label>
-                      </div>
-                      <div class="input-field col m4 s6">
-                        <select name="state" ng-options="state as state.abbrev for state in states track by abbrev" ng-model="data.state" required>
-                          <option value="" disabled selected></option>
-                        </select>
-                        <label for="state">State</label>
-                      </div>
-                      <div class="input-field col m4 s12">
-                        <input type="text" name="zip" ng-pattern="/^[0-9]{5}$/" required ng-model="data.zip"/>
-                        <label for="zip" ng-class="{'active' : data.zip != null || contactInfo.zip.$touched}">ZIP</label>
-                      </div>
                       <div class="input-field col m6 s12">
                         <input type="email" name="email" ng-model="data.email" ng-pattern="/^(\w+)(\.\w+)*@(\w+\.)+(\w){2,}$/" required/>
                         <label for="email" ng-class="{'active' : data.email != null || contactInfo.email.$touched}">Email</label>

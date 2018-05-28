@@ -18,4 +18,4 @@ logger = function() {
   };
 }
 
-module.exports.logger = logger;
+module.exports = logger;
