@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<div class="row">
-	<div class="col s12 m4" ng-repeat="img in imgUrls" >
+<div class="row gallery">
+	<div class="col s12 m4" ng-repeat="img in imgUrls">
 		<div class="card">
 			<div class="card-content">
 		  		<img class="responsive-img materialboxed" ng-src="{{img.url}}" data-caption="{{img.caption}}"/>
@@ -8,4 +8,8 @@
 		</div>
 	</div>
 </div>
-<photo-modal></photo-modal>
+<div class="row">
+	<div class="col s12 center-align">
+		<h5>Thank you to Ally Fillmore for the great engagement photos! Check out more of her work at <a target="_blank" href="https://www.allysonfillmore.com/portfolio">allysonfillmore.com</a></h5>
+	</div>
+</div>

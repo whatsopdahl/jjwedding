@@ -24,8 +24,8 @@
       zoom: 15
     };
     let infowindowContent = '<h6 class="title">Van Dusen Mansion</h6>'
-      +'<p><a ng-href="'+$scope.directionsUrl+'" target="_blank"><i class="material-icons">place</i> 1900 Lasalle Ave, Minneapolis, MN 55403</a></p>'
-      +'<p><a href="http://thevandusenmansion.com"><i class="material-icons">public</i> thevandusenmansion.com</a></p>';
+      +'<p><a href="'+$scope.directionsUrl+'" target="_blank"><i class="material-icons">place</i> 1900 Lasalle Ave, Minneapolis, MN 55403</a></p>'
+      +'<p><a target="_blank" href="http://thevandusenmansion.com"><i class="material-icons">public</i> thevandusenmansion.com</a></p>';
     $scope.marker = {
       coords: { latitude: 44.9658529, longitude: -93.2768952},
       options: {

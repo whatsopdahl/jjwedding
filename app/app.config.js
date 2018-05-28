@@ -12,15 +12,13 @@
 			templateUrl : "app/templates/RSVP.html",
 			controller : 'rsvpCtrl'
 		})
-		.when("/accomodations", {
-			templateUrl : "app/templates/accomodations.html"
+		.when("/accommodations", {
+			templateUrl : "app/templates/accommodations.html",
+			controller: 'accommodationsCtrl'
 		})
 		.when("/gallery", {
 			templateUrl : "app/templates/gallery.html",
 			controller : "galleryCtrl"
-		})
-		.when("/weddingparty", {
-			templateUrl : "app/templates/weddingparty.html"
 		})
 		.when("/venue", {
 			templateUrl : "app/templates/venue.html",

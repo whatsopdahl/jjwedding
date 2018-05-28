@@ -43,9 +43,6 @@ nav {
 }
 
 footer {
-	ul {
-		style : inline;
-	}
 	&.page-footer{
 		padding-top:0;
 	}
@@ -161,12 +158,22 @@ a {
 	}
 }
 
+.gallery {
+	background-color: lighten($primary-color-dark, 5%);
+}
+
 .angular-google-map-container {
 	height : 500px;
 }
 
 .container.venue {
 	padding-top : 20px;
+}
+
+.registry {
+	margin-bottom: 0;
+	min-height: 50vh;
+	padding: 20px;
 }
 
 @media (max-width:700px) {
@@ -191,6 +198,16 @@ a {
 			top:0;
 			left:0;
 		}
+	}
+	.mobile-fill-btn {
+		width: 100%;
+	}
+}
+
+@media (min-width: 600px) {
+	.registry {
+		display: flex;
+		align-items: center;
 	}
 }
 
@@ -267,4 +284,12 @@ a {
 	p {
 		padding-left : 5%;
 	}
+}
+
+#bbb-registry {
+	background-color: white;
+}
+
+#rei-registry {
+	background-color: darkolivegreen;
 }

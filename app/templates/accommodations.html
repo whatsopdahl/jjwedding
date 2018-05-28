@@ -1,0 +1,56 @@
+<div>
+  <div class="container">
+    <div class="row">
+      <div class="col m4 s12">
+        <img src="img/hampton_inn_and_suites.png" width="100%"/>
+      </div>
+      <div class="col s12 m8">
+        <h3 class="title valign-center">Hampton Inn &amp; Suites Downtown</h3>
+        <div class="divider"></div>
+        <p>For your convenience, we have blocked a set of rooms at the Hampton Inn &amp; Suites in downtown Minneapolis. Just a mile away from the Van Dusen Mansion, the Hampton Inn &amp; Suites have offered the opportunity to book a room at a fantastic rate! Be sure to book your room no later than November 23, 2018 to take advantage of this offer.</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col m6 s12">
+        <div class="row">
+          <table>
+            <thead>
+              <tr>
+                <th>Room Type</th>
+                <th>Nightly Rate</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>2 Queen</td>
+                <td>$59</td>
+              </tr>
+              <tr>
+                <td>King</td>
+                <td>$59</td>
+              </tr>
+              <tr>
+                <td>King Studio</td>
+                <td>$69</td>
+              </tr>
+            </tbody>
+          </table>
+          <br/>
+          <a class="waves-effect waves-light btn primary mobile-fill-btn" target="_blank" href="https://secure3.hilton.com/en_US/hp/reservation/book.htm?inputModule=HOTEL&ctyhocn=MSPMDHX&spec_plan=CHHDOW&arrival=20181221&departure=20181224&cid=OM,WW,HILTONLINK,EN,DirectLink&fromId=HILTONLINKDIRECT">Book a room</a>
+        </div>
+      </div>
+      <div class="col m6 s12">
+        <loading-component ng-if="loading"></loading-component>
+        <ui-gmap-google-map center='map.center' control='googleMap' zoom='map.zoom'>
+            <ui-gmap-marker
+                    idKey='1'
+                    coords='marker.coords'
+                    options='marker.options'
+                    click='openInfoWindow()'
+                    control='vdMarker'>
+            </ui-gmap-marker>
+        </ui-gmap-google-map>
+      </div>
+    </div>
+  </div>
+</div>
