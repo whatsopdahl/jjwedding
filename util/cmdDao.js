@@ -14,7 +14,12 @@ if (process.argv[2] === '--help') {
 
 const args = process.argv.slice(3, process.argv.length)
 
-let result = dao[process.argv[2]].apply(dao, args)
+let result
+if (process.argv[2] === 'savePartyData') {
+  result = dao[process.argv[2]].apply(dao, JSON.parse(args[3]))
+} else {
+  result = dao[process.argv[2]].apply(dao, args)
+}
 
 result.then(res => {
   console.log(JSON.stringify(res, null, 2))
