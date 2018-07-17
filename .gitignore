@@ -74,3 +74,12 @@ env.sh
 
 # google cloud key file
 JJWedding-gcp-creds.json
+
+# logs
+.forever/
+
+#vscode
+.vscode/
+
+# guestData
+guestData/

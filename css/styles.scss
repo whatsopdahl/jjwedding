@@ -172,6 +172,15 @@ a {
 
 .container.venue {
 	padding-top : 20px;
+	.col {
+		div.divider {
+			margin-right: 15px;
+		}
+
+		p {
+			padding-right: 10%;
+		}
+	}
 }
 
 .registry {

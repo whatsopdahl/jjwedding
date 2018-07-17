@@ -15,19 +15,23 @@
 
   venueCtrl.$inject = ['$scope', 'uiGmapGoogleMapApi'];
   function venueCtrl($scope, uiGmapGoogleMapApi) {
+    let location = {
+      latitude: 44.964165,
+      longitude: -93.279701
+    }
     $scope.googleMap = {};
     $scope.vdMarker = {};
     $scope.directionsUrl = encodeURI("https://www.google.com/maps/dir/?api=1&destination=1900 Lasalle Ave, Minneapolis, MN 55403&destination_place_id=ChIJmULEiccys1IRfE_IHJuyqpw&travelmode=driving")
     $scope.loading = true;
     $scope.map = {
-      center: { latitude: 44.9658529, longitude: -93.2768952},
+      center: location,
       zoom: 15
     };
     let infowindowContent = '<h6 class="title">Van Dusen Mansion</h6>'
       +'<p><a href="'+$scope.directionsUrl+'" target="_blank"><i class="material-icons">place</i> 1900 Lasalle Ave, Minneapolis, MN 55403</a></p>'
       +'<p><a target="_blank" href="http://thevandusenmansion.com"><i class="material-icons">public</i> thevandusenmansion.com</a></p>';
     $scope.marker = {
-      coords: { latitude: 44.9658529, longitude: -93.2768952},
+      coords: location,
       options: {
         title: 'Van Dusen Mansion'
       }

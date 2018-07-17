@@ -8602,6 +8602,10 @@ a:disabled {
 
 .container.venue {
   padding-top: 20px; }
+  .container.venue .col div.divider {
+    margin-right: 15px; }
+  .container.venue .col p {
+    padding-right: 10%; }
 
 .registry {
   margin-bottom: 0;
