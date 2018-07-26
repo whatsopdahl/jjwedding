@@ -116,6 +116,32 @@ a {
 	color : $link-color !important;
 }
 
+.bbb {
+	background-color: #384A9C;
+
+	&:hover {
+		background-color: lighten(#384A9C, 15%) !important;
+	}
+}
+
+.btn {
+	&.yellow {
+		&:hover {
+			background-color: lighten(color('yellow', 'base'), 15%) !important;
+		}
+	}
+
+	&.black {
+		&:hover {
+			background-color: lighten(#000000, 15%) !important;
+		}
+	}
+}
+
+.bbb-text {
+	color : #384A9C;
+}
+
 .ng-invalid {
 	@extend .invalid;
 }

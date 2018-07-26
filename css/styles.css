@@ -8564,6 +8564,19 @@ a:disabled {
 .link-text {
   color: #0277bd !important; }
 
+.bbb {
+  background-color: #384A9C; }
+  .bbb:hover {
+    background-color: #5c6fc4 !important; }
+
+.btn.yellow:hover, .yellow.btn-large:hover {
+  background-color: #fff388 !important; }
+.btn.black:hover, .black.btn-large:hover {
+  background-color: #262626 !important; }
+
+.bbb-text {
+  color: #384A9C; }
+
 .pages {
   min-height: 300px; }
 
