@@ -6,7 +6,10 @@
 	app.config(["$routeProvider", function($routeProvider) {
 		$routeProvider
 		.when("/", {
-			templateUrl : "app/templates/home.html"
+			templateUrl : "app/templates/home.html",
+			controller: ['$scope', function($scope) {
+				$scope.mainPicUrl = 'img/Tree_Left_1.jpg';
+			}]
 		})
 		.when("/RSVP", {
 			templateUrl : "app/templates/RSVP.html",
