@@ -39,6 +39,15 @@ module.exports = class DAO {
     })
   }
 
+  getInviteCount() {
+    let query = this.datastore
+      .createQuery("__Stat_Kind__")
+      .filter("kind_name", "party");       
+    return this.datastore.runQuery(query).then(res => {
+      return res[0][0].count;
+    })
+  }
+
   /**
    * Gets dietary restriction options
    * @returns {Array} array of diet option objects
@@ -310,7 +319,7 @@ module.exports = class DAO {
     }
    */
   createPartyEntity(party) {
-    return {
+    let entity = {
       key: party.id,
       data: [
         {
@@ -347,5 +356,15 @@ module.exports = class DAO {
         }
       ]
     }
+
+    if (party.rsvpNote) {
+      entity.data.push({
+        name: 'rsvpNote',
+        value: party.rsvpNote,
+        excludeFromIndexes: true
+      })
+    }
+
+    return entity;
   }
 }

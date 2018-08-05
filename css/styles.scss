@@ -225,19 +225,35 @@ a {
 	}
 	.modal-footer {
 		z-index: 5;
+
+		a {
+			cursor: pointer;
+		}
+	}
+}
+
+.modal {
+	top : 5% !important;
+	height : 90%;
+	max-height : 90%;
+	&.modal-fixed-footer {
+		height : 90%;
+		max-height: 90%;
+	}
+	.dropdown-content {
+		max-height: 225px;
+	}
+}
+
+@media (min-width: 700px) {
+	.modal {
+		width : 90%;
 	}
 }
 
 @media (max-width:700px) {
 	.modal {
 		width : 100%;
-		top : 5% !important;
-		height : 90%;
-		max-height : 90%;
-		&.modal-fixed-footer {
-			height : 90%;
-			max-height: 90%;
-		}
 	}
 }
 

@@ -18,6 +18,7 @@
 			dataSrv.getParty($scope.entryPage.partyKey)
 				.then(data => {
 					$scope.data = data
+					$scope.data.displayName = getDisplayName(data)
 					setMaxSize()
 					$scope.loading = false
 					$scope.page = 3;
@@ -200,6 +201,13 @@
 			$(document).ready(function() {
 				$('select').material_select();
 			});
+		}
+
+		function getDisplayName(data) {
+			if (data.name.split(' ').length == 2 && (data.name.includes('Family') || data.name.includes('family'))) {
+				return `the ${data.name}`
+			}
+			return data.name
 		}
 
 		//TODO: replace these with asyc grabbing of data

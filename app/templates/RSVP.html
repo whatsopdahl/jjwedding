@@ -40,8 +40,8 @@
 		    <div class="row valign-wrapper page-container" ng-switch="currPage">
           <div class="col m10 offset-m1 s12">
             <div class="row">
-            <h4 class="hide-on-small-only">Welcome {{data.name}} party!</h4>
-            <h4 class="hide-on-med-and-up center-align">Welcome {{data.name}}!</h4>
+            <h4 class="center-align">Welcome {{data.name}}!</h4>
+            <div class="center-align">
             <span class="hide-on-small-only">
                 <a href="" ng-class="{'active' : currPage==0}" ng-click="jumpTo(0)">Attending</a> >
                 <a ng-class="{'active' : currPage==1, 'disabled' : !canJump(1)}" ng-if="data.maxSize > 1" ng-click="jumpTo(1)">Party Info</a><span ng-if="data.maxSize > 1"> ></span>
@@ -49,6 +49,7 @@
                 <a ng-class="{'active' : currPage==3, 'disabled' : !canJump(3)}" ng-click="jumpTo(3)">Meal Selection</a> >
                 <a ng-class="{'active' : currPage==4, 'disabled' : !canJump(4)}" ng-click="jumpTo(4)">Contact Info</a>
             </span>
+            </div>
             <div class="col s12 hide-on-med-and-up">
               <div class="row">
                 <div class="col s6 center-align">
@@ -173,8 +174,8 @@
                           <label for="{{guest.firstName}}-{{guest.lastName}}-{{restriction.classification}}">{{restriction.classification}}</label>
                         </p>
                         <div class="input-field col s12">
-                          <input id="guest-{{$index}}-notes" ng-model="guest.diet.notes" type="text"/>
-                          <label for="guest-{{$index}}-notes" ng-class="{ 'active' : guest.diet.notes}">Allergies</label>
+                          <input id="guest-{{$index}}-notes" ng-model="guest.meal.notes" type="text"/>
+                          <label for="guest-{{$index}}-notes" ng-class="{ 'active' : guest.meal.notes}">Allergies</label>
                         </div>
                       </div>
                     </div>
@@ -215,13 +216,13 @@
     <div class="row">
       <div class="col s8">
         <p ng-if="data.name">
-          <span class="hide-on-small-only">If you are not {{ data.name }}, please </span>
+          <span class="hide-on-small-only">If you are not {{ data.displayName }}, please </span>
           <a class="hide-on-small-only" ng-click="restart()">
             restart
           </a>
           <a class="hide-on-med-and-up" ng-click="restart()">
             Restart
-          </a> your rsvp.
+          </a><span> your rsvp.</span>
         </p>
       </div>
       <div class="col s4">
