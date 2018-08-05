@@ -39,8 +39,7 @@
 		    <div class="row valign-wrapper page-container" ng-switch="currPage">
           <div class="col m10 offset-m1 s12">
             <div class="row">
-            <h4 class="hide-on-small-only">Welcome {{data.name}} party!</h4>
-            <h4 class="hide-on-med-and-up center-align">Welcome {{data.name}}!</h4>
+            <h4 class="center-align">Welcome {{data.name}}!</h4>
             <span class="hide-on-small-only">
                 <a href="" ng-class="{'active' : currPage==0}" ng-click="jumpTo(0)">Attending</a> >
                 <a ng-class="{'active' : currPage==1, 'disabled' : !canJump(1)}" ng-if="data.maxSize > 1" ng-click="jumpTo(1)">Party Info</a><span ng-if="data.maxSize > 1"> ></span>

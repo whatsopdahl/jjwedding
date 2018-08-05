@@ -177,7 +177,7 @@
 		}
 
 		function getDisplayName(data) {
-			if (data.name.includes('Family') || data.name.includes('family')) {
+			if (data.name.split(' ') && (data.name.includes('Family') || data.name.includes('family'))) {
 				return `the ${data.name}`
 			}
 			return data.name

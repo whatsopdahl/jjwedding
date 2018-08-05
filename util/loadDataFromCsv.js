@@ -4,18 +4,28 @@ const path = require('path')
 const guestDataPath = path.resolve(__dirname, "../guestData")
 const csvtojson = require('csvtojson')
 const Dao = require('../server/dao')
-const dao = new Dao()
+let dao
+try {
+  dao = new Dao()
+} catch (e) {
+  throw e
+}
 
 readDirFiles.list(guestDataPath, {}, (err, files) => {
   let promises = []
   for (let i=1; i < files.length; i++) {
     promises.push(filterAndFormat(files[i]))
   }
-  Promise.all(promises).then(result => {
+  return Promise.all(promises).then(result => {
     let flat = result.reduce((sum, val) => {
       return sum.concat(val)
     })
-    fs.writeFileSync(path.resolve(__dirname, '../guestData.json'), JSON.stringify(writeToCloud(flat), null, 2))
+    return writeToCloud(flat);
+    // fs.writeFileSync(path.resolve(__dirname, '../guestData.json'), JSON.stringify(writeToCloud(flat), null, 2))
+  }).then(cloudWrites => {
+    return Promise.all(cloudWrites)
+  }).then(() => {
+    console.log('written to cloud');
   }).catch(err => {
     throw err
   })
@@ -42,9 +52,11 @@ function filterAndFormat(csvFile) {
 }
 
 function writeToCloud(guests) {
-  let cloudGuests = []
-
+  let promises = []
   guests.forEach(guest => {
+    if (/(\s&\s[Gg]uest)$/.test(guest.name)) {
+      guest.name = guest.name.substr(0, guest.name.length - 8);
+    }
     let dsObj = {
       maxSize: parseInt(guest.count),
       name: guest.name,
@@ -56,9 +68,10 @@ function writeToCloud(guests) {
 
     dsObj.size = dsObj.members.length
 
-    cloudGuests.push(dsObj)
+    promises.push(dao.savePartyData(dsObj));
   })
-  return cloudGuests
+
+  return promises;
 }
 
 function getMembers(guest) {
@@ -78,7 +91,9 @@ function getMembers(guest) {
       firstName: splitBySpace[0],
       lastName: splitBySpace[1],
       under21: false,
-      diet: {
+      under10: false,
+      meal: {
+        meal: null,
         mask: 0,
         notes: null
       }
@@ -102,7 +117,9 @@ function extractMembers(splitVals) {
     member = {
       firstName: splitBySpace[0],
       under21: false,
-      diet: {
+      under10: false,
+      meal: {
+        meal: null,
         mask: 0,
         notes: null
       }

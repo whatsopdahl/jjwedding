@@ -36,6 +36,15 @@ module.exports = class DAO {
     })
   }
 
+  getInviteCount() {
+    let query = this.datastore
+      .createQuery("__Stat_Kind__")
+      .filter("kind_name", "party");       
+    return this.datastore.runQuery(query).then(res => {
+      return res[0][0].count;
+    })
+  }
+
   /**
    * Gets dietary restriction options
    * @returns {Array} array of diet option objects
