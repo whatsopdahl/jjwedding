@@ -4,12 +4,15 @@ const hexConverter = require('./hexConverter')
 const hexToDecimal = hexConverter.hexToDecimal
 const decimalToHex = hexConverter.decimalToHex
 const logger = require('./logger')
+const path = require('path')
 
 module.exports = class DAO {
   /**
    */
   constructor() {
-    this.datastore = new GDatastore({})
+    this.datastore = new GDatastore({
+      keyFilename: path.resolve(__dirname, '../JJWedding-gcp-creds.json')
+    })
   }
 
   /**
@@ -28,8 +31,8 @@ module.exports = class DAO {
         if (err) {
           reject(err)
         } else if (!entity) {
-          logger.log(`invalid party key ${id}`)
-          reject(new Error(`invalid party key ${givenId}`))
+          logger.log(`Invalid party key: ${id}`)
+          reject(new Error(`Invalid party key: ${givenId}. Please ensure you've typed the key correctly.`))
         }
         resolve(_.assign(entity, {id: hexToDecimal(id)}))
       })
@@ -51,6 +54,30 @@ module.exports = class DAO {
 				value : 2
 			}
 		]
+  }
+
+  /**
+   * Gets the meal options
+   * @returns {Array} array of meal options
+   */
+  getMealOptions() {
+    return [
+      {
+        name: 'Sea Bass',
+        description: 'Grilled Sea Bass with wasabi ginger sauce',
+        labels: ['DF']
+      },
+      {
+        name: 'Chicken Breast',
+        description: 'Herb-roasted wingtip chicken breast with roasted garlic herb sauce',
+        labels: ['GF', 'DF']
+      },
+      {
+        name: 'Butternut Squash Ravioli',
+        description: 'Served with mascarpone sage cream and vegetable ratatouille',
+        labels: ['V']
+      }
+    ]
   }
 
   /**
@@ -97,7 +124,7 @@ module.exports = class DAO {
   getAllVegetarian() {
     return this.getAllGuests().then(guests => {
       return _.filter(guests, guest => {
-        return guest.diet.mask === 1 || guest.diet.mask === 3
+        return guest.meal.mask === 1 || guest.meal.mask === 3
       })
     })
   }
@@ -109,7 +136,7 @@ module.exports = class DAO {
   getAllGlutenFree() {
     return this.getAllGuests().then(guests => {
       return _.filter(guests, guest => {
-        return guest.diet.mask > 2
+        return guest.meal.mask >= 2
       })
     })
   }
@@ -121,7 +148,7 @@ module.exports = class DAO {
   getAllGlutenFreeAndVegetarian() {
     return this.getAllGuests().then(guests => {
       return _.filter(guests, guest => {
-        return guest.diet.mask === 3
+        return guest.meal.mask === 3
       })
     })
   }
@@ -133,7 +160,7 @@ module.exports = class DAO {
   getAllDietaryNotes() {
     return this.getAllGuests().then(guests => {
       return _.filter(guests, guest => {
-        return guest.diet.notes
+        return guest.meal.notes
       })
     })
   }

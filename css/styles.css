@@ -8525,6 +8525,9 @@ p a:hover {
 a:disabled {
   cursor: not-allowed; }
 
+[type="checkbox"] + label:before, [type="checkbox"]:not(.filled-in) + label:after {
+  margin: 4px; }
+
 /**
  * Classes
  */
@@ -8695,6 +8698,10 @@ a:disabled {
   #rsvp-modal .modal-footer .row p {
     text-align: left;
     margin-bottom: 0px; }
+#rsvp-modal .title-wrapper {
+  margin-top: 10px; }
+#rsvp-modal .meal-option {
+  margin-top: 20px; }
 
 #confirm-modal h6 {
   border-bottom: #9b9b9b 1px solid; }
@@ -8709,5 +8716,11 @@ a:disabled {
 
 #ikea-registry {
   background-color: #0051BA; }
+
+#meal-notes {
+  margin-bottom: 50px;
+  font-family: 'Lobster Two', cursive; }
+  #meal-notes ul {
+    list-style-type: none; }
 
 /*# sourceMappingURL=styles.css.map */

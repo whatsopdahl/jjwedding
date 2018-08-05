@@ -20,6 +20,7 @@
 					$scope.data = data
 					setMaxSize()
 					$scope.loading = false
+					$scope.page = 3;
 				})
 				.catch(err => {
 					console.log(err)
@@ -89,7 +90,7 @@
 				case 2:
 					return verifyPartyMembers();
 				case 3:
-					return true;
+					return verifyMealInfo();
 				case 4:
 					return $scope.data.email;
 				default :
@@ -99,7 +100,7 @@
 
 		// use bit-wise XOR to return the mask.
 		$scope.calcDietMask = function(guest, restriction) {
-			guest.diet.mask = guest.diet.mask ^ restriction.value;
+			guest.meal.mask = guest.meal.mask ^ restriction.value;
 		}
 
 		$scope.isRestricted = function(guestMask, restrictionVal) {
@@ -109,6 +110,10 @@
 		$scope.confirm = function() {
 			$scope.loading = true;
 			$scope.data.rsvped = true;
+			for (let i=0; i < $scope.data.members.length; i++) {
+				let guest = $scope.data.members[i];
+				delete guest.mealOptions;
+			}
 			dataSrv.saveRsvp($scope.data)
 				.then(response => {
 					console.log(`success response: ${JSON.stringify(response, null, 2)}`)
@@ -125,6 +130,17 @@
 				})
 		}
 
+		$scope.toggleMealOptions = function(guest) {
+			if (guest.under10) {
+				guest.mealOptions = $scope.mealOptions;
+				guest.under10 = false;
+			} else {
+				guest.mealOptions = $scope.childMealOptions;
+				guest.under10 = true;
+			}
+			guest.meal.meal = null;
+		}
+
 		function initPartyMembers() {
 			while ($scope.data.members.length > $scope.data.size) {
 				$scope.data.members.pop();
@@ -132,6 +148,9 @@
 			$scope.memberInfoPrompt = ($scope.data.members.length == $scope.data.size) ? "Verify" : "Enter";
 			for (let i=$scope.data.members.length; i < $scope.data.size; i++) {
 				$scope.data.members[i] = guestSrv.createNewGuest($scope.data.partyId);
+			}
+			for (let i=0; i < $scope.data.members.length; i++) {
+				$scope.data.members[i].mealOptions = $scope.mealOptions;
 			}
 		}
 
@@ -143,8 +162,15 @@
 			return true;
 		}
 
+		function verifyMealInfo() {
+			for (let i=0; i < $scope.data.members.length; i++) {
+				let member = $scope.data.members[i];
+				if (!member.meal.meal) return false;
+			}
+			return true;
+		}
+
 		function resetData() {
-			//TODO : remove this when we get data async
 			$scope.data = {
 				partyId : null,
 				maxSize : 1,
@@ -155,6 +181,7 @@
 				email : null,
 				members : []
 			};
+			$scope.error = null;
 			setMaxSize();
 			$scope.maxPage = 5;
 			$scope.currPage = 0;
@@ -177,15 +204,49 @@
 
 		//TODO: replace these with asyc grabbing of data
 		$scope.dietaryRestrictions =[
+			// {
+			// 	classification : "Vegetarian",
+			// 	value : 1
+			// },
 			{
-				classification : "Vegetarian",
-				value : 1
-			},
-			{
-				classification : "GLuten-free",
+				classification : "Gluten-free",
 				value : 2
 			}
 		];
+
+		$scope.mealOptions = [
+			{
+			  name: 'Sea Bass (DF)',
+			  description: 'Grilled Sea Bass with wasabi ginger sauce'
+			},
+			{
+			  name: 'Chicken Breast (GF) (DF)',
+			  description: 'Herb-roasted wingtip chicken breast with roasted garlic herb sauce'
+			},
+			{
+			  name: 'Butternut Squash Ravioli (V)',
+			  description: 'Served with mascarpone sage cream and vegetable ratatouille'
+			}
+		]
+
+		$scope.childMealOptions = [
+			{
+				name: 'Crispy Chicken Strips',
+				description: ''
+			},
+			{
+				name: 'Mac & Cheese (V)',
+				description: ''
+			},
+			{
+				name: 'Mini Cheese Pizza (V)',
+				description: ''
+			},
+			{
+				name: 'Hot Dog',
+				description: ''
+			}
+		]
 	}
 
 	function rsvpModal() {
@@ -212,7 +273,7 @@
 		return function(guest, restrictions) {
 			let list = "";
 			for (let restriction of restrictions) {
-				if (guest.diet.mask & restriction.value) {
+				if (guest.meal.mask & restriction.value) {
 					list+=restriction.classification;
 					list+=" & ";
 				}

@@ -20,7 +20,7 @@ describe('DAO', () => {
           firstName: 'Tim',
           lastName: 'Opdahl',
           under21: false,
-          diet: {
+          meal: {
             mask: 0,
             notes: null
           }
@@ -40,7 +40,7 @@ describe('DAO', () => {
           firstName: 'Jim',
           lastName: 'Dengler',
           under21: false,
-          diet: {
+          meal: {
             mask: 0,
             notes: null
           }
@@ -49,7 +49,7 @@ describe('DAO', () => {
           firstName: 'Chris',
           lastName: 'Dengler',
           under21: false,
-          diet: {
+          meal: {
             mask: 0,
             notes: null
           }
@@ -58,7 +58,7 @@ describe('DAO', () => {
           firstName: 'Peter',
           lastName: 'Dengler',
           under21: true,
-          diet: {
+          meal: {
             mask:0,
             notes: null
           }

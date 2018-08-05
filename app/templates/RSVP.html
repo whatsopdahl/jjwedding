@@ -13,15 +13,16 @@
 				<div class="col s12">
 					<h2>RSVP</h2>
 					<form novalidate class="col s12" ng-submit="getParty()" name="rsvpEntryForm">
-						<p>Please enter the unique party key found on your invite.</p>
+						<p>Please enter the unique RSVP code included with your invitation.</p>
 						<div class="input-field col s12">
 							<label for="party-key">Party Key</label>
 							<input id="party-key" ng-model="entryPage.partyKey" ng-minlength="1"
                 ng-maxlength="14" ng-pattern="/^[0-9A-Fa-f]+$/i" type="text" name="key" min="1" max="14" required/>
-              <span ng-if="error" class="error-text">{{error}}</span>
 						</div>
 						<button type="submit" class="pull-right btn success waves-effect waves-light"
               ng-class="{ 'disabled' : rsvpEntryForm.key.$invalid }">Validate</button>
+            <span ng-if="error" class="error-text">{{error}} If the issue persists, contact the groom at: </span>  
+            <contact-info ng-if="error"></contact-info>
 					</form>
         </div>
       </div>
@@ -30,7 +31,7 @@
 			<div class="row bottom-padded">
 				<div class="col s12">
 					<h3>Need to change your RSVP?</h3>
-					<p>It looks like you have already RSVPed. If you need to change your RSVP details, please contact the groom. See below for contact info. </p>
+					<p>It looks like you have already RSVPed. If you need to change your RSVP details, please contact the groom at either of the following:</p>
           <contact-info></contact-info>
 				</div>
 			</div>
@@ -45,7 +46,7 @@
                 <a href="" ng-class="{'active' : currPage==0}" ng-click="jumpTo(0)">Attending</a> >
                 <a ng-class="{'active' : currPage==1, 'disabled' : !canJump(1)}" ng-if="data.maxSize > 1" ng-click="jumpTo(1)">Party Info</a><span ng-if="data.maxSize > 1"> ></span>
                 <a ng-class="{'active' : currPage==2, 'disabled' : !canJump(2)}" ng-click="jumpTo(2)">Guest Info</a> >
-                <a ng-class="{'active' : currPage==3, 'disabled' : !canJump(3)}" ng-click="jumpTo(3)">Dietary Restrictions</a> >
+                <a ng-class="{'active' : currPage==3, 'disabled' : !canJump(3)}" ng-click="jumpTo(3)">Meal Selection</a> >
                 <a ng-class="{'active' : currPage==4, 'disabled' : !canJump(4)}" ng-click="jumpTo(4)">Contact Info</a>
             </span>
             <div class="col s12 hide-on-med-and-up">
@@ -64,18 +65,18 @@
             <div class="page" ng-switch-when="0"> <!-- page 1 -->
               <div class="row">
                 <div class="col s12">
-                  <h5>Will you be attending?</h5>
+                  <h5>Will you be joining us?</h5>
                 </div>
                 <form novalidate ng-submit="nextPage()">
                   <div class="row">
                     <div class="input-field col s10 offset-s1">
                       <p>
                         <input class="with-gap" ng-model="data.attending" type="radio" id="attending" ng-value="true"/>
-                        <label for="attending" ng-class="{ 'primary-text' : data.attending == true }">Yes, I am attending.</label>
+                        <label for="attending" ng-class="{ 'primary-text' : data.attending == true }">Yes, I am planning to attend</label>
                       </p>
                       <p>
                         <input class="with-gap" ng-model="data.attending" type="radio" id="not-attending" ng-value="false"/>
-                        <label for="not-attending" ng-class="{ 'primary-text' : data.attending == false}">No, I cannot make it.</label>
+                        <label for="not-attending" ng-class="{ 'primary-text' : data.attending == false}">No, I am unable to attend</label>
                       </p>
                     </div>
                   </div>
@@ -122,8 +123,12 @@
                         <label for="lastName" ng-class="{'active' : guest.lastName != null}">Last Name</label>
                       </div>
                       <div class="input-field col s8 offset-s1">
-                        <input id="guest-{{$index}}-under21" ng-model="guest.under21" type="checkbox" class="filled-in"></input>
+                        <input id="guest-{{$index}}-under21" ng-model="guest.under21" type="checkbox"></input>
                         <label for="guest-{{$index}}-under21">Under 21?</label>
+                      </div>
+                      <div class="input-field col s8 offset-s1" ng-show="guest.under21">
+                        <input id="guest-{{$index}}-under10" ng-checked="guest.under10" type="checkbox" ng-click="toggleMealOptions(guest)"></input>
+                        <label for="guest-{{$index}}-under10">Under 10?</label>
                       </div>
                     </div>
                   </div>
@@ -131,31 +136,55 @@
                 </form>
               </div>
             </div><!-- end page3 -->
-            <div class="page" ng-switch-when="3"> <!-- page 4 -->
+            <div class="page meal-info" ng-switch-when="3"> <!-- page 4 -->
               <div class="row">
                 <div class="col s12 center-align">
-                  <h7>Please indicate any dietary restrictions</h7>
+                  <h7>Please choose your meal and indicate any dietary restrictions</h7>
                 </div>
                 <form novalidate ng-submit="nextPage()">
                   <div class="row" ng-repeat="guest in data.members">
                     <div class="col s12">
-                      <h7>{{guest.firstName}} {{guest.lastName}}</h7>
-                      <div class="divider col s12"></div>
+                      <div class="title-wrapper">
+                        <h7>{{guest.firstName}} {{guest.lastName}}</h7>
+                        <div class="divider col s12"></div>
+                      </div>
                     </div>
                     <div class="row">
-                      <div class="col l4 offset-l1 s10">
-                        <div class="input-field col s12" ng-repeat="restriction in dietaryRestrictions">
-                          <input type="checkbox" class="filled-in" id="{{guest.firstName}}-{{guest.lastName}}-{{restriction.classification}}" ng-click="calcDietMask(guest, restriction)" ng-checked="isRestricted(guest.diet.mask, restriction.value)">
-                          <label for="{{guest.firstName}}-{{guest.lastName}}-{{restriction.classification}}">{{restriction.classification}}</label>
+                      <div class="col l6 s12">
+                        <div class="title-wrapper">
+                          <h7>Meal Options</h7>
                         </div>
+                        <p ng-if="guest.under10"><small>Kid's meals are served with baby carrots, grapes, and milk.</small></p>
+                        <p class="meal-option" ng-repeat="meal in guest.mealOptions">
+                          <input class="with-gap" id="{{guest.firstName}}-{{guest.lastName}}-{{$index}}" type="radio" ng-value="meal.name" ng-model="guest.meal.meal"/>
+                          <label for="{{guest.firstName}}-{{guest.lastName}}-{{$index}}">
+                            <span>{{meal.name}}</span>
+                            <br/>
+                            <small>{{meal.description}}</small>
+                          </label>
+                        </p>
                       </div>
-                      <div class="col l6 s10 offset-l0 offset-s1">
+                      <div class="col l6 s12">
+                        <div class="title-wrapper">
+                          <h7>Dietary Restrictions</h7>
+                        </div>
+                        <p class="meal-option" ng-repeat="restriction in dietaryRestrictions">
+                          <input type="checkbox" id="{{guest.firstName}}-{{guest.lastName}}-{{restriction.classification}}" ng-click="calcDietMask(guest, restriction)" ng-checked="isRestricted(guest.meal.mask, restriction.value)">
+                          <label for="{{guest.firstName}}-{{guest.lastName}}-{{restriction.classification}}">{{restriction.classification}}</label>
+                        </p>
                         <div class="input-field col s12">
-                          <textarea id="guest-{{$index}}-notes" ng-model="guest.diet.notes" class="materialize-textarea"></textarea>
-                          <label for="guest-{{$index}}-notes" ng-class="{ 'active' : guest.diet.notes}">Notes</label>
+                          <input id="guest-{{$index}}-notes" ng-model="guest.diet.notes" type="text"/>
+                          <label for="guest-{{$index}}-notes" ng-class="{ 'active' : guest.diet.notes}">Allergies</label>
                         </div>
                       </div>
                     </div>
+                  </div>
+                  <div id="meal-notes">
+                    <ul>
+                      <li>* (GF) - Gluten Free</li>
+                      <li>* (DF) - Dairy Free</li>
+                      <li>* (V) - Vegetarian</li>
+                    </ul>
                   </div>
                   <input type="submit" hidden/>
                 </form>

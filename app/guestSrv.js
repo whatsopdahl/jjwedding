@@ -8,12 +8,13 @@
       createNewGuest : createNewGuest
     }
 
-    function createNewGuest(partyId) {
+    function createNewGuest(partyId, mealOptions) {
       return {
         firstName : null,
         lastName : null,
         under21 : false,
-        diet : {
+        meal : {
+          meal : null,
           mask : 0,
           notes : null
         },

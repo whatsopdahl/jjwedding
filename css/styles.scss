@@ -65,6 +65,10 @@ a {
 	}
 }
 
+[type="checkbox"] + label:before, [type="checkbox"]:not(.filled-in) + label:after {
+	margin: 4px;
+}
+
 /**
  * Classes
  */
@@ -322,6 +326,14 @@ a {
 			}
 		}
 	}
+
+	.title-wrapper {
+		margin-top: 10px;	
+	}
+
+	.meal-option {
+		margin-top: 20px;
+	}
 }
 
 #confirm-modal {
@@ -343,4 +355,13 @@ a {
 
 #ikea-registry {
 	background-color: #0051BA;
+}
+
+#meal-notes {
+	margin-bottom: 50px;
+	@include lobster-font();
+
+	ul {
+		list-style-type: none;
+	}
 }
