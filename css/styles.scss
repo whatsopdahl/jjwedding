@@ -224,6 +224,25 @@ a {
 	}
 }
 
+.rideshare-address {
+	@extend .center-align;
+	position: relative;
+	padding-bottom: 10px !important;
+
+	* {
+		display: inline-block;
+	}
+
+	a {
+		margin-right: 10px;
+	}
+
+	.copy {
+		cursor: pointer;
+		float: right;
+	}
+}
+
 @media (max-width:700px) {
 	.modal {
 		width : 100%;

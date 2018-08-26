@@ -5,22 +5,35 @@
 </div>
 <div>
   <div class="container venue">
-    <div class="row">
+    <div class="row valign-wrapper">
       <div class="col m6 s12">
         <div class="row">
           <h3 class="title">The Van Dusen Mansion</h3>
-          <h6>Address</h6>
           <div class="divider"></div>
-          <a ng-href="{{directionsUrl}}" target="_blank">
-            <p>1900 Lasalle Ave</p>
-            <p>Minneapolis, MN 55403</p>
-          </a>
-          <h6>Parking</h6>
+          <p>Located on the corner of LaSalle and Groveland in downtown Minneapolis, the Van Dusen is most accurately described by Jenna as, "a castle."</p>
+          <a class="btn mobile-fill-btn primary waves-effect waves-light" target="_blank" href="http://www.thevandusenmansion.com/gallery/">View Gallery</a>
+          <h5 class="title">Ride Share/Taxi</h5>
           <div class="divider"></div>
-          <p>Complimentary parking will be available during the wedding in the lot behind the mansion, off the corner of Groveland and Pillsbury.</p>
-          <p>Unfortunately, we cannot offer overnight parking, so please plan accordingly.</p>
+          <p>If you plan to use a taxi or ridesharing service to get to the wedding, please use the drive along the north side of the mansion, off of Groveland avenue.</p>
+          <div class="col s12 rideshare-address">
+            <a target="_blank" ng-href="{{sideDriveDirectionsUrl}}">
+              {{rideShareAddress}}
+            </a>
+            <i title="copy" class="material-icons copy primary-text" ng-click="copied()" ngclipboard data-clipboard-text="{{rideShareAddress}}">file_copy</i>
+          </div>
+          <a class="btn mobile-fill-btn primary waves-effect waves-light" ng-href="{{sideDriveDirectionsUrl}}" target="_blank">Directions</a>
           <br/>
-          <a class="btn ptimary waves-effect waves-light" target="_blank" href="http://www.thevandusenmansion.com/gallery/">View Gallery</a>
+          <h5 class="title">Parking</h5>
+          <div class="divider"></div>
+          <p>If you plan to drive yourself, complimentary parking will be available during the wedding in the lot behind the mansion, off the corner of Groveland and Pillsbury.</p>
+          <p>Unfortunately, we cannot offer overnight parking, so please plan accordingly.</p>
+          <div class="col s12 rideshare-address">
+              <a target="_blank" ng-href="{{directionsUrl}}">
+                {{address}}
+              </a>
+              <i title="copy" class="material-icons copy primary-text" ng-click="copied()" ngclipboard data-clipboard-text="{{address}}">file_copy</i>
+            </div>
+          <a class="btn mobile-fill-btn primary waves-effect waves-light" target="_blank" ng-href="{{directionsUrl}}">Directions</a>
         </div>
       </div>
       <div class="col m6 s12">

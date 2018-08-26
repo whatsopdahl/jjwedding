@@ -3,7 +3,7 @@ var checkLoginStatus;
 (function() {
 	'use strict';
 
-	var app = angular.module('weddingApp', ['ngRoute', 'ngAnimate', 'uiGmapgoogle-maps']);
+	var app = angular.module('weddingApp', ['ngRoute', 'ngAnimate', 'uiGmapgoogle-maps', 'ngclipboard']);
 
 	app.controller("mainCtrl", mainCtrl);
 

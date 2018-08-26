@@ -4040,7 +4040,7 @@ td, th {
 .right-align {
   text-align: right; }
 
-.center, .center-align {
+.center, .center-align, .rideshare-address {
   text-align: center; }
 
 .left {
@@ -8629,6 +8629,17 @@ a:disabled {
   height: auto; }
 .modal.modal-fixed-footer .modal-footer {
   z-index: 5; }
+
+.rideshare-address {
+  position: relative;
+  padding-bottom: 10px !important; }
+  .rideshare-address * {
+    display: inline-block; }
+  .rideshare-address a {
+    margin-right: 10px; }
+  .rideshare-address .copy {
+    cursor: pointer;
+    float: right; }
 
 @media (max-width: 700px) {
   .modal {
