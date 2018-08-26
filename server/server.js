@@ -11,7 +11,7 @@ const rsvpApi = require('./rsvpApi')
 const Dao = require('./dao')
 const dao = new Dao()
 const port = 443
-/*
+//*
 const serverOptions = {
   key: fs.readFileSync('/etc/letsencrypt/live/jonandjenna12-23-18.com/privkey.pem'),
   cert: fs.readFileSync('/etc/letsencrypt/live/jonandjenna12-23-18.com/fullchain.pem')
@@ -78,7 +78,7 @@ const httpApp = express()
 
 httpApp.use((req, res) => {
   res.writeHead(301, {
-    Location: `https://${req.hostname}${req.originalUrl}`
+    Location: 'https://'+req.hostname+req.originalUrl
   })
   res.end()
 })
