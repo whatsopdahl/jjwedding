@@ -13,7 +13,7 @@ const dao = new Dao()
 const port = 443
 //*
 const serverOptions = {
-  key: fs.readFileSync('/etc/letsencrypt/live/jonandjenna12-23-18.com/privateKey.pem'),
+  key: fs.readFileSync('/etc/letsencrypt/live/jonandjenna12-23-18.com/privkey.pem'),
   cert: fs.readFileSync('/etc/letsencrypt/live/jonandjenna12-23-18.com/fullchain.pem')
 }
 /*/
