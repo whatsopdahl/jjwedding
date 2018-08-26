@@ -8525,6 +8525,9 @@ p a:hover {
 a:disabled {
   cursor: not-allowed; }
 
+[type="checkbox"] + label:before, [type="checkbox"]:not(.filled-in) + label:after {
+  margin: 4px; }
+
 /**
  * Classes
  */
@@ -8629,7 +8632,22 @@ a:disabled {
   height: auto; }
 .modal.modal-fixed-footer .modal-footer {
   z-index: 5; }
+  .modal.modal-fixed-footer .modal-footer a {
+    cursor: pointer; }
 
+.modal {
+  top: 5% !important;
+  height: 90%;
+  max-height: 90%; }
+  .modal.modal-fixed-footer {
+    height: 90%;
+    max-height: 90%; }
+  .modal .dropdown-content {
+    max-height: 225px; }
+
+@media (min-width: 700px) {
+  .modal {
+    width: 90%; } }
 .rideshare-address {
   position: relative;
   padding-bottom: 10px !important; }
@@ -8643,13 +8661,7 @@ a:disabled {
 
 @media (max-width: 700px) {
   .modal {
-    width: 100%;
-    top: 5% !important;
-    height: 90%;
-    max-height: 90%; }
-    .modal.modal-fixed-footer {
-      height: 90%;
-      max-height: 90%; } }
+    width: 100%; } }
 @media (max-width: 600px) {
   .mobile-fill-btn {
     width: 100%; } }
@@ -8706,6 +8718,10 @@ a:disabled {
   #rsvp-modal .modal-footer .row p {
     text-align: left;
     margin-bottom: 0px; }
+#rsvp-modal .title-wrapper {
+  margin-top: 10px; }
+#rsvp-modal .meal-option {
+  margin-top: 20px; }
 
 #confirm-modal h6 {
   border-bottom: #9b9b9b 1px solid; }
@@ -8720,5 +8736,11 @@ a:disabled {
 
 #ikea-registry {
   background-color: #0051BA; }
+
+#meal-notes {
+  margin-bottom: 50px;
+  font-family: 'Lobster Two', cursive; }
+  #meal-notes ul {
+    list-style-type: none; }
 
 /*# sourceMappingURL=styles.css.map */
