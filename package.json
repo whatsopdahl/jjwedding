@@ -33,7 +33,7 @@
   },
   "scripts": {
     "test": "jasmine",
-    "start": "nodemon server/server.js",
+    "start": "sudo nodemon server/server.js",
     "forever": "forever -al forever.log -ao out.log -ae err.log start server/server.js",
     "getdata": "node util/cmdDao.js"
   },

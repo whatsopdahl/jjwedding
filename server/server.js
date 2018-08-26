@@ -1,6 +1,7 @@
 const express = require('express')
+const https = require('https')
+const fs = require('fs')
 const app = express()
-const port = 80
 const path = require("path")
 const logger = require("./logger.js")
 const bodyParser = require("body-parser")
@@ -8,6 +9,16 @@ const _ = require('lodash')
 const rsvpApi = require('./rsvpApi')
 const Dao = require('./dao')
 const dao = new Dao()
+const port = 443
+const serverOptions = {
+  key: fs.readFileSync('/etc/letsencrypt/live/jonandjenna12-23-18.com/privateKey.pem'),
+  cert: fs.readFileSync('/etc/letsencrypt/live/jonandjenna12-23-18.com/fullchain.pem')
+}
+
+// const serverOptions = {
+//   key: fs.readFileSync(path.resolve('../server.key')),
+//   cert: fs.readFileSync(path.resolve('../server.crt'))
+// }
 
 app.use(express.static(path.resolve(__dirname, "..")))
 app.use(bodyParser.json())
@@ -55,6 +66,6 @@ app.get("/rsvp/:func", (req, res) => {
 });
 
 
-app.listen(port, () => {
+https.createServer(serverOptions, app).listen(port, () => {
   console.log(`Wedding server listening on port ${port}`);
 });
