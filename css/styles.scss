@@ -289,9 +289,19 @@ a {
 }
 
 @media (min-width: 600px) {
-	.registry {
+	.valign-wrapper-inner {
 		display: flex;
 		align-items: center;
+	}
+
+	.registry {
+		@extend .valign-wrapper-inner;
+	}
+	
+	.venue {
+		> .row {
+			@extend .valign-wrapper-inner;
+		}
 	}
 }
 

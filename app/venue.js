@@ -37,7 +37,7 @@
       +'<p><a title="Parking" href="'+$scope.directionsUrl+'" target="_blank"><i class="material-icons">local_parking</i> 1900 Lasalle Ave, Minneapolis, MN 55403</a></p>'
       +'<p><a title="Ride share" href="'+$scope.uberUrl+'" target="_blank"><i class="material-icons">directions_car</i> 101 Groveland Ave S, Minneapolis, MN 55403</a></p>';
     $scope.marker = {
-      coords: location,
+      coords: _.cloneDeep(location),
       options: {
         title: 'Van Dusen Mansion'
       }

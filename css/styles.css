@@ -8669,7 +8669,7 @@ a:disabled {
   .mobile-fill-btn {
     width: 100%; } }
 @media (min-width: 600px) {
-  .registry {
+  .valign-wrapper-inner, .registry, .venue > .row {
     display: flex;
     align-items: center; } }
 /**

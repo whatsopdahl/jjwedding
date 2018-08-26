@@ -19,7 +19,7 @@
       +'<p><a href="'+$scope.directionsUrl+'" target="_blank"><i class="material-icons">place</i> 19 N 8th St, Minneapolis, MN 55403</a></p>'
       +'<p><a target="_blank" href="http://hamptoninn3.hilton.com/en/hotels/minnesota/hampton-inn-and-suites-minneapolis-downtown-MSPMDHX/index.html"><i class="material-icons">public</i> hamptoninn3.hilton.com</a></p>';
     $scope.marker = {
-      coords: $scope.map.center,
+      coords: _.cloneDeep($scope.map.center),
       options: {
         title: 'Hilton Inn & Suites'
       }
