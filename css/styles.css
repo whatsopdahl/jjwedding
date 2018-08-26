@@ -3616,7 +3616,7 @@ a {
   transition: box-shadow .25s;
   box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); }
 
-.divider {
+.divider, .divider-special {
   height: 1px;
   overflow: hidden;
   background-color: #e0e0e0; }
@@ -5514,7 +5514,7 @@ button.btn-floating {
       background-color: #eee; }
     .dropdown-content li.active.selected {
       background-color: #e1e1e1; }
-    .dropdown-content li.divider {
+    .dropdown-content li.divider, .dropdown-content li.divider-special {
       min-height: 0;
       height: 1px; }
     .dropdown-content li > a, .dropdown-content li > span {
@@ -7014,7 +7014,7 @@ input[type=range]:focus::-ms-fill-upper {
       margin: 0 32px 0 0;
       width: 24px;
       color: rgba(0, 0, 0, 0.54); }
-  .side-nav .divider {
+  .side-nav .divider, .side-nav .divider-special {
     margin: 8px 0 0 0; }
   .side-nav .subheader {
     cursor: initial;
@@ -8618,7 +8618,7 @@ a:disabled {
 
 .container.venue {
   padding-top: 20px; }
-  .container.venue .col div.divider {
+  .container.venue .col div.divider, .container.venue .col div.divider-special {
     margin-right: 15px; }
   .container.venue .col p {
     padding-right: 10%; }
@@ -8658,6 +8658,9 @@ a:disabled {
   .rideshare-address .copy {
     cursor: pointer;
     float: right; }
+
+.divider-special {
+  margin-top: 15px; }
 
 @media (max-width: 700px) {
   .modal {
