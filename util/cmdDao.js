@@ -20,6 +20,10 @@ if (process.argv[2] === 'savePartyData') {
 } else {
   result = dao[process.argv[2]].apply(dao, args)
 }
+if (!result.then) {
+  console.log(JSON.stringify(res, null, 2))
+  return
+}
 
 result.then(res => {
   console.log(JSON.stringify(res, null, 2))
