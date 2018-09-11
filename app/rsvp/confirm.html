@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<div class="modal modal-fixed-footer" id="confirm-modal">
+  <div class="modal-content">
+    <h3> Confirm RSVP </h3>
+    <div class="col s12 bottom-padded">
+    	<p>Please validate that the following data is correct. Once submitted, you will need to contact the groom to change your RSVP details.</p>
+    	<div class="col s12 divider"></div>
+      <div class="card primary">
+        <div class="card-content white-text">
+          <span class="card-title">I <em>will<span ng-if="!data.attending"> not</span></em> be attending.</span>
+        </div>
+      </div>
+      <div ng-if="data.attending" class="card primary">
+        <div class="card-content white-text">
+          <span class="card-title">Contact Info</span>
+          <h6>Email</h6>
+          <p>{{data.email}}</p>
+        </div>
+        <div class="card-action right-align">
+          <a class="modal-action modal-close waves-effect btn right-align" ng-click="jumpTo(4)">Change</a>
+        </div>
+      </div>
+      <div ng-if="data.attending" class="card primary">
+        <div class="card-content white-text">
+          <span class="card-title">Guest Info</span>
+          <h6 ng-if="data.maxSize > 1">Number of Guests</h6>
+          <p>{{data.size}}</p>
+          <div ng-repeat="guest in data.members">
+            <h6>{{guest.firstName}} {{guest.lastName}}</h6>
+            <p><strong>Meal:</strong> {{guest.meal.meal}}</p>
+            <p><strong>Allergies:</strong> {{guest.meal.notes == null ? 'None' : guest.meal.notes}}</p>
+            <p ng-if="guest.under21" class="red-text">Under 21</p>
+          </div>
+        </div>
+        <div class="card-action right-align">
+          <a class="modal-action modal-close waves-effect btn hide-on-med-and-up" ng-click="jumpTo(2)">Change</a>
+          <a class="modal-action modal-close waves-effect btn hide-on-small-only" ng-click="jumpTo(2)">Change Guests</a>
+          <a class="modal-action modal-close waves-effect btn hide-on-small-only" ng-click="jumpTo(3)">Change Meal</a>
+        </div>
+      </div>
+      <div class="card">
+        <div class="row">
+      <div class="input-field col s12" ng-if="!data.attending">
+        <textarea class="materialize-textarea" ng-model="data.rsvpNote" id="rsvp-note"></textarea>
+        <label for="rsvp-note">Leave a note for the couple (optional)</label>
+      </div>
+    </div>
+      </div>
+    </div>
+  </div><!-- /.modal-content -->
+  <div class="modal-footer">
+    <a class="modal-action modal-close waves-effect btn left-align">Cancel</a>
+    <a class="primary modal-action modal-close waves-effect btn right-align" ng-click="confirm()">Submit</a>
+  </div><!-- /.modal-footer -->
+</div><!-- /.modal -->

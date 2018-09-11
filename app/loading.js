@@ -1,15 +1,6 @@
-(function() {
-  'use strict';
-
-  var app = angular.module("weddingApp");
-
-  app.directive("loadingComponent", loadingComponent);
-
-  function loadingComponent() {
-    return {
-      restrict : 'E',
-      templateUrl : 'app/templates/loading.html'
-    };
-  }
-
-})();
+module.exports = function loadingComponent() {
+  return {
+    restrict : 'E',
+    template : require('./templates/loading.html')
+  };
+}

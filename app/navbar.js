@@ -1,43 +1,40 @@
-(function() {
-	'use strict';
+const $ = require('jquery')
 
-	var app = angular.module('weddingApp');
+module.exports = {
+	template: require('./templates/navbar.html'),
+	controllerAs: '$ctrl',
+	controller: class Navbar {
+		/* @ngInject */
+		constructor($rootScope, $location) {
+			this.$rootScope = $rootScope;
+			this.$rootScope.rsvping = false;
+			this.$rootScope.$on('$locationChangeStart', () => {
+				this.page = $location.path();
+			});
+		}
 
-	app.directive('navbar', navbar);
-	app.controller('navCtrl', navCtrl);
+		$onInit() {
+			$(document).ready(function() {
+				$(".button-collapse").sideNav({
+					menuWidth: 300, // Default is 300
+					edge: 'right', // Choose the horizontal origin
+					closeOnClick: true, // Closes side-nav on <a> clicks, useful for Angular/Meteor
+					draggable: true // Choose whether you can drag to open on touch screens
+				});
+			});
+		}
 
-	navCtrl.$inject = ["$log", "$scope", "$rootScope", "$location"];
-	function navCtrl($log, $scope, $rootScope, $location) {
-		$rootScope.rsvping = false;
-
-		$scope.isactive = function(page) {
-			if ($rootScope.rsvping) {
+		isActive(page) {
+			if (this.$rootScope.rsvping) {
 				return false;
-			} else if ($scope.page == page) {
+			} else if (this.page == page) {
 				return true;
 			}
 		}
 
-		$scope.rsvp = function() {
-			$rootScope.rsvping = true;
+		rsvp() {
+			this.$rootScope.rsvping = true;
 			$("#rsvp-modal").modal('open');
 		}
-
-		$(document).ready(function() {
-			$(".button-collapse").sideNav({
-				menuWidth: 300, // Default is 300
-      	edge: 'right', // Choose the horizontal origin
-      	closeOnClick: true, // Closes side-nav on <a> clicks, useful for Angular/Meteor
-      	draggable: true // Choose whether you can drag to open on touch screens
-			});
-		});
 	}
-
-	function navbar() {
-		return {
-			restrict: 'E',
-			templateUrl: 'app/templates/navbar.html',
-			controller : 'navCtrl'
-		}
-	}
-})();
+}

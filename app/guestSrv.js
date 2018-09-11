@@ -1,25 +1,19 @@
-(function() {
-  'use strict';
+module.exports = function() {
+  return {
+    createNewGuest : createNewGuest
+  }
 
-  let app=angular.module("weddingApp");
-
-  app.factory("guestSrv", function() {
+  function createNewGuest(partyId, mealOptions) {
     return {
-      createNewGuest : createNewGuest
+      firstName : null,
+      lastName : null,
+      under21 : false,
+      meal : {
+        meal : null,
+        mask : 0,
+        notes : null
+      },
+      partyId : partyId
     }
-
-    function createNewGuest(partyId, mealOptions) {
-      return {
-        firstName : null,
-        lastName : null,
-        under21 : false,
-        meal : {
-          meal : null,
-          mask : 0,
-          notes : null
-        },
-        partyId : partyId
-      }
-    }
-  });
-})();
+  }
+}

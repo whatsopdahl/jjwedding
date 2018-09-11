@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <div class="navbar-fixed">
 	<nav>
 		<div class="nav-wrapper">
@@ -7,20 +6,20 @@
 	    	<i class="material-icons">menu</i>
 	    </a>
 		  <ul class="right hide-on-med-and-down">
-				<li class="waves-lighten" ng-class="{ active : isactive('/') }"><a ng-href="/">Home</a></li>
-				<li class="waves-lighten" ng-class="{ active : rsvping }"><a ng-click="rsvp()">RSVP</a></li>
-				<li class="waves-lighten" ng-class="{ active : isactive('/venue')}"><a ng-href="/#!/venue">Venue</a></li>
-				<li class="waves-lighten" ng-class="{ active : isactive('/accommodations')}"><a  ng-href="/#!/accommodations">Accommodations</a></li>
-				<li class="waves-lighten" ng-class="{ active : isactive('/registry')}"><a ng-href="/#!/registry">Registry</a></li>
-				<li class="waves-lighten" ng-class="{ active : isactive('/gallery')}"><a href="/#!/gallery">Gallery</a></li>
+				<li class="waves-lighten" ng-class="{ active : $ctrl.isActive('/') }"><a ng-href="/">Home</a></li>
+				<li class="waves-lighten" ng-class="{ active : $ctrl.$rootScope.rsvping }"><a ng-click="$ctrl.rsvp()">RSVP</a></li>
+				<li class="waves-lighten" ng-class="{ active : $ctrl.isActive('/venue')}"><a ng-href="/#!/venue">Venue</a></li>
+				<li class="waves-lighten" ng-class="{ active : $ctrl.isActive('/accommodations')}"><a  ng-href="/#!/accommodations">Accommodations</a></li>
+				<li class="waves-lighten" ng-class="{ active : $ctrl.isActive('/registry')}"><a ng-href="/#!/registry">Registry</a></li>
+				<li class="waves-lighten" ng-class="{ active : $ctrl.isActive('/gallery')}"><a href="/#!/gallery">Gallery</a></li>
 			</ul>
 			<ul id="nav-mobile" class="side-nav">
-				<li class="waves-lighten" ng-class="{ active : isactive('/') }"><a ng-href="/">Home</a></li>
-				<li class="waves-lighten" ng-class="{ active : rsvping }"><a ng-click="rsvp()">RSVP</a></li>
-				<li class="waves-lighten" ng-class="{ active : isactive('/venue')}"><a ng-href="/#!/venue">Venue</a></li>
-				<li class="waves-lighten" ng-class="{ active : isactive('/accommodations')}"><a  ng-href="/#!/accommodations">Accommodations</a></li>
-				<li class="waves-lighten" ng-class="{ active : isactive('/registry')}"><a ng-href="/#!/registry">Registry</a></li>
-				<li class="waves-lighten" ng-class="{ active : isactive('/gallery')}"><a href="/#!/gallery">Gallery</a></li>
+				<li class="waves-lighten" ng-class="{ active : $ctrl.isActive('/') }"><a ng-href="/">Home</a></li>
+				<li class="waves-lighten" ng-class="{ active : $ctrl.$rootScope.rsvping }"><a ng-click="$ctrl.rsvp()">RSVP</a></li>
+				<li class="waves-lighten" ng-class="{ active : $ctrl.isActive('/venue')}"><a ng-href="/#!/venue">Venue</a></li>
+				<li class="waves-lighten" ng-class="{ active : $ctrl.isActive('/accommodations')}"><a  ng-href="/#!/accommodations">Accommodations</a></li>
+				<li class="waves-lighten" ng-class="{ active : $ctrl.isActive('/registry')}"><a ng-href="/#!/registry">Registry</a></li>
+				<li class="waves-lighten" ng-class="{ active : $ctrl.isActive('/gallery')}"><a href="/#!/gallery">Gallery</a></li>
 			</ul>
 		</div>
 	</nav>

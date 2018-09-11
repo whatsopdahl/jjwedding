@@ -11,7 +11,7 @@ const rsvpApi = require('./rsvpApi')
 const Dao = require('./dao')
 const dao = new Dao()
 const port = 443
-//*
+/*
 const serverOptions = {
   key: fs.readFileSync('/etc/letsencrypt/live/jonandjenna12-23-18.com/privkey.pem'),
   cert: fs.readFileSync('/etc/letsencrypt/live/jonandjenna12-23-18.com/fullchain.pem')
@@ -24,7 +24,7 @@ const serverOptions = {
 
 //*/
 
-app.use(express.static(path.resolve(__dirname, "..")))
+app.use(express.static(path.resolve(__dirname, "../dist")))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
