@@ -83,3 +83,5 @@ JJWedding-gcp-creds.json
 
 # guestData
 guestData/
+
+!dist/**
