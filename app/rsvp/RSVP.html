@@ -21,8 +21,9 @@
 						</div>
 						<button type="submit" class="pull-right btn success waves-effect waves-light"
               ng-class="{ 'disabled' : rsvpEntryForm.key.$invalid }">Validate</button>
-            <span ng-if="error" class="error-text">{{error}} If the issue persists, contact the groom at: </span>  
-            <contact-info ng-show="error"></contact-info>
+            <span ng-show="error" class="error-text">{{error}} If the issue persists, contact the groom at: </span>  
+            <span ng-hide="error">If you cannot login, please contact the groom at:</span>
+            <contact-info></contact-info>
 					</form>
         </div>
       </div>
