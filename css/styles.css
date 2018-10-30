@@ -10932,7 +10932,7 @@ a:disabled {
   }
 }
 @media (min-width: 600px) {
-  .valign-wrapper-inner, .venue > .row, .registry {
+  .valign-wrapper-inner, .registry {
     display: flex;
     align-items: center;
   }

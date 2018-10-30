@@ -30,9 +30,9 @@
           <p>Unfortunately, we cannot offer overnight parking, so please plan accordingly.</p>
           <div class="col s12 rideshare-address">
               <a target="_blank" ng-href="{{directionsUrl}}">
-                {{address}}
+                {{parkingAddress}}
               </a>
-              <i title="copy" class="material-icons copy primary-text" ng-click="copied()" ngclipboard data-clipboard-text="{{address}}">file_copy</i>
+              <i title="copy" class="material-icons copy primary-text" ng-click="copied()" ngclipboard data-clipboard-text="{{parkingAddress}}">file_copy</i>
             </div>
           <a class="btn mobile-fill-btn primary waves-effect waves-light" target="_blank" ng-href="{{directionsUrl}}">Directions</a>
         </div>
@@ -49,6 +49,11 @@
                     control='vdMarker'>
             </ui-gmap-marker>
           </ui-gmap-google-map>
+        </div>
+        <div class="row">
+          <div class="col s12">
+              <img style="width: 100%; height: auto" src="img/parkingLot.png"/>
+          </div>
         </div>
       </div>
     </div>

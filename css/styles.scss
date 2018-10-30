@@ -297,12 +297,6 @@ a {
 	.registry {
 		@extend .valign-wrapper-inner;
 	}
-	
-	.venue {
-		> .row {
-			@extend .valign-wrapper-inner;
-		}
-	}
 }
 
 /**
