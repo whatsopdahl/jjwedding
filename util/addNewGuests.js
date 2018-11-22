@@ -1,6 +1,6 @@
 const Dao = require('../server/dao')
 const dao = new Dao()
-const newGuests = require('../guestData/guestsRound2_10102018')
+const newGuests = require(`../guestData/${process.argv[2]}`)
 const _ = require('lodash')
 
 let completed = 0

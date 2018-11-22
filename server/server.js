@@ -24,6 +24,11 @@ const serverOptions = {
 
 //*/
 
+// middleware for certbot auto renewal
+app.use('/.well-known/acme-challenge',
+  express.static(path.resolve(__dirname, "../.well-known/acme-challenge"), {
+    dotfiles: "allow"
+  }))
 app.use(express.static(path.resolve(__dirname, "../dist")))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
