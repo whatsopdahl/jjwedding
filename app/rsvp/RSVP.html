@@ -8,7 +8,16 @@
     <a href="" class="btn-floating waves-effect waves-light link rsvp-nav-btn" ng-disabled="currPage >= maxPage || !canAdvance()" ng-click="nextPage()"><i class="material-icons">keyboard_arrow_right</i></a>
   </div>
   <div class="modal-content">
-		<div ng-if="data.name == null"> <!-- begin partyId form -->
+    <div ng-if="!rsvpEnabled">
+      <div class="row bottom-padded">
+        <div class="col s12">
+          <h3>The RSVP Window is Closed</h3>
+          <p>In order to give accurate guest counts to our vendors, we have closed the RSVP window. If you need to change your RSVP details, please contact the groom at either of the following:</p>
+          <contact-info></contact-info>
+        </div>
+      </div>
+    </div>
+		<div ng-if="rsvpEnabled && data.name == null"> <!-- begin partyId form -->
 			<div class="row bottom-padded">
 				<div class="col s12">
 					<h2>RSVP</h2>
@@ -28,7 +37,7 @@
         </div>
       </div>
 		</div> <!-- end partyId form -->
-		<div ng-if="data.name != null && data.rsvped"> <!-- already rsvped -->
+		<div ng-if="rsvpEnabled && data.name != null && data.rsvped"> <!-- already rsvped -->
 			<div class="row bottom-padded">
 				<div class="col s12">
 					<h3>Need to change your RSVP?</h3>
@@ -37,7 +46,7 @@
 				</div>
 			</div>
 		</div> <!-- end already rsvped -->
-		<div class="rsvp-action-pane" ng-if="data.name != null && !data.rsvped">
+		<div class="rsvp-action-pane" ng-if="rsvpEnabled && data.name != null && !data.rsvped">
 		    <div class="row valign-wrapper page-container" ng-switch="currPage">
           <div class="col m10 offset-m1 s12">
             <div class="row">

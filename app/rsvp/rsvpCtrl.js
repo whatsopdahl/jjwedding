@@ -4,6 +4,8 @@ const $ = require('jquery')
 module.exports = /* @ngInject */ function rsvpCtrl($rootScope, $scope, dataSrv, guestSrv) {
     resetData();
 
+    $scope.rsvpEnabled = false;
+
     $scope.getParty = function() {
         if (!$scope.entryPage.partyKey) return;
         $scope.loading = true;
